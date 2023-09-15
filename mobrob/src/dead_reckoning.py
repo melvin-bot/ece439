@@ -54,7 +54,7 @@ def listener():
 #     #  Set the function "dead_reckoning" as a callback - this is the function 
 #     #  that will be called when a message comes in. 
 #==============================================================================
-    sub_wheel_disps = rospy.Subscriber( '/robot_wheel_displacements', ME439WheelDisplacements, dead_reckoning)  
+    sub_wheel_disps = rospy.Subscriber('/robot_wheel_displacements', ME439WheelDisplacements, dead_reckoning)  
 
     
 #==============================================================================
@@ -73,7 +73,7 @@ def listener():
 #     # Here a Publisher for the Estimated Robot Pose. 
 #     # Topic '/robot_pose_estimated', Message type: Pose2D
 #==============================================================================
-    pub_robot_pose_estimated = rospy.Publisher(  '/robot_pose_estimated', Pose2D, queue_size = 1)
+    pub_robot_pose_estimated = rospy.Publisher('/robot_pose_estimated', Pose2D, queue_size = 1)
     robot_pose_estimated_message = Pose2D()
 
     
@@ -131,8 +131,8 @@ def dead_reckoning(msg_in):
 ####    CODE HERE: compute change in path length and change in angle
     # REPLACE the zeros with the proper expressions (see lecture notes). 
     # use "diff_left" and "diff_right" which were set a few lines above. 
-    diff_pathlength = (diff_left + diff_right) / 2
-    diff_theta = (diff_right - diff_left) / wheel_width 
+    diff_pathlength = (diff_left+diff_right)/2
+    diff_theta = (diff_right-diff_left)/wheel_width
 
 ####    CODE HERE: compute the AVERAGE heading angle (theta) during the movement 
     # This makes the dead-reckoning more accurate than using just the old theta or the new one. 
@@ -141,9 +141,9 @@ def dead_reckoning(msg_in):
 ####    CODE HERE: compute the change in position and heading according to the dead-reckoning equations
     # REPLACE the zeros with the proper expressions (see lecture notes). 
     # Remember that sine and cosine are in the "numpy" package, which has been imported as "np"
-    r_center_world_estimated[0] = r_center_world_estimated[0] - diff_pathlength * np.sin(theta_avg)      # x-direction position
-    r_center_world_estimated[1] = r_center_world_estimated[1] + diff_pathlength * np.cos(theta_avg)     # y-direction position
-    theta_estimated = theta_estimated + diff_theta
+    r_center_world_estimated[0] += diff_pathlength * -np.sin(theta_avg)     # x-direction position
+    r_center_world_estimated[1] += diff_pathlength * np.cos(theta_avg)      # y-direction position
+    theta_estimated += diff_theta                                           # angle
 
 #==============================================================================
 #     End of function "dead_reckoning"

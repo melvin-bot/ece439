@@ -17,11 +17,11 @@
  <!-- Therefore remap topics so dead_reckoning listens to "/robot_wheel_displacements_simulated" (from simulation) instead of "/robot_wheel_displacements" (from real encoders) --> 
   <group ns="robot_estimate">
     <!-- first a "dead reckoning" node -->
-    <node    />
+    <node pkg="mobrob" name="dead_reckoning" type="dead_reckoning.py" />
     
     <!-- then an "animator" node, but remapped to make it subscribe to "/robot_pose_estimated" instead of "/robot_pose_simulated"  -->
-    <node    >
-        <remap    />    
+    <node pkg="mobrob" name="dead_reckoning_animator" type="mobile_robot_animator.py" >
+        <remap from="/robot_pose_simulated" to="/robot_pose_estimated"/>    
     </node>
   </group>
 

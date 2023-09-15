@@ -12,59 +12,7 @@ import numpy as np
 # we import it "from" the ROS package we created it in (here "mobrob_util") with an extension of .msg ...
 # and actually import the message type by name (here "ME439WheelSpeeds")
 from mobrob_util.msg import ME439WheelSpeeds
-from math import pi
 
-#==============================================================================
-# # Get parameters from rosparam
-#==============================================================================
-
-wheel_width = rospy.get_param('/wheel_width_model')
-body_length = rospy.get_param('/body_length')
-wheel_diameter = rospy.get_param('/wheel_diameter_model')
-wheel_radius = wheel_diameter/2.0
-
-
-#==============================================================================
-# # Helper functions
-#==============================================================================
-
-# Turn some specific radius
-def turn_radius(radius, angle, center_velocity, CCW=True):
-    duration = radius * angle / center_velocity
-    v_fast_wheel = center_velocity * (1 + (wheel_width / (2*radius)))
-    v_slow_wheel = center_velocity * (1 - (wheel_width / (2*radius)))
-    
-    if CCW:
-        return [duration, v_slow_wheel, v_fast_wheel]
-    else:
-        return [duration, v_fast_wheel, v_slow_wheel]
-        
-
-# Turn in-place
-def turn_in_place(angle, omega, CCW=True):
-    wheel_speed = omega * wheel_width / 2
-    duration = angle / omega
-    
-    if CCW:
-        return [duration, -wheel_speed, wheel_speed]
-    else:
-        return [duration, wheel_speed, -wheel_speed]
-
-
-# Go in a straight line
-def go_straight(distance, center_velocity):
-    duration = abs(distance / center_velocity)
-    
-    return [duration, center_velocity, center_velocity]
-
-
-# Degree to radian conversion
-def deg_to_rad(deg):
-    return deg / 180 * pi
-
-# Delay in-place
-def delay(time):
-    return [time, 0, 0]
 
 # =============================================================================
 #     Set up a time course of commands
@@ -78,66 +26,6 @@ def delay(time):
 stage_settings = np.array( [ [0.0, 0.0, 0.0], [5.0,0.3, 0.3], [5.0, -0.3, -0.3], [2.0, 0.0, 0.0]] )
 # Example: forward, turn, return to home, turn. 
 stage_settings = np.array( [ [0,0,0],[3,0.100,0.100],[1,0,0],[1.5,0.1592,-0.1592],[1,0,0],[3,0.100,0.100],[1,0,0],[1.5,-0.1592,0.1592],[1,0,0]] )
-
-
-# Set up new path to draw names
-stage_settings = []
-text_size = 0.4
-speed = 0.2
-omega = 1.0
-delay_time = 0.2
-stage_settings.append(delay(1.0))
-
-# Draw an M
-stage_settings.append(go_straight(text_size, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(150), omega, CCW=False))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size/2, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(120), omega, CCW=True))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size/2, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(150), omega, CCW=False))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size, speed))
-stage_settings.append(delay(delay_time))
-
-# J next
-stage_settings.append(turn_in_place(deg_to_rad(90), omega, CCW=True))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size/5, speed))
-stage_settings.append(turn_radius(text_size/2, deg_to_rad(90), speed, CCW=True))
-stage_settings.append(go_straight(text_size/2, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(90), omega, CCW=False))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size/2, -speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size, speed))
-
-# W
-stage_settings.append(go_straight(text_size/5, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(90), omega, CCW=False))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(150), omega, CCW=True))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size/2, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(120), omega, CCW=False))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size/2, speed))
-stage_settings.append(delay(delay_time))
-stage_settings.append(turn_in_place(deg_to_rad(150), omega, CCW=True))
-stage_settings.append(delay(delay_time))
-stage_settings.append(go_straight(text_size, speed))
-
-
-
 
 # Convert it into a numpy array
 stage_settings_array = np.array(stage_settings)

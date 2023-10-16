@@ -1,0 +1,32 @@
+Created new Gmail
+U: melvin.doo.team23@gmail.com
+P: raspberry23
+
+Created new Github account:
+U: melvin-bott
+P: Robot Building Time
+
+Create a new SSH key to push to github
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+To push on Melvin
+Change a file
+git add <file>
+Alternative, use git add . to add all the files you’ve changed
+git commit -m “your commit message here”
+git push -u origin main
+Main is the branch name. Change it as necessary depending on the branch you’re working on
+
+To pull updated files on Melvin:
+git pull
+That’s it. Pretty easy. Just make sure you do this everytime you work on Melvin just incase someone changed files and pushed them to the GitHub repo
+
+Get GitHub setup on your own machine:
+Setup Git and create a GitHub account
+Go to https://github.com/melvin-bot/ece439
+Follow this guide: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+Use an SSH key
+Follow these instructions to generate an ssh key, add it to your personal machine, and then add that same ssh key to your github. This allows for passwordless access to the repo.
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account

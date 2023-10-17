@@ -54,7 +54,7 @@ def listener():
 #     #  Set the function "dead_reckoning" as a callback - this is the function 
 #     #  that will be called when a message comes in. 
 #==============================================================================
-    sub_wheel_disps = rospy.Subscriber( topic_name_in_single_quotes, message_type, callback )  
+    sub_wheel_disps = rospy.Subscriber( '/robot_wheel_displacements', ME439WheelDisplacements, 'dead_reckoning' )  
 
     
 #==============================================================================
@@ -73,7 +73,7 @@ def listener():
 #     # Here a Publisher for the Estimated Robot Pose. 
 #     # Topic '/robot_pose_estimated', Message type: Pose2D
 #==============================================================================
-    pub_robot_pose_estimated = rospy.Publisher(  topic_name_in_single_quotes, message_type, queue_size = 1)
+    pub_robot_pose_estimated = rospy.Publisher(  '/robot_pose_estimaged', Pose2D, queue_size = 1)
     robot_pose_estimated_message = Pose2D()
 
     
@@ -115,24 +115,24 @@ def dead_reckoning(msg_in):
     # names for left and right wheel displacements. 
     # Or with "roscore" running, just ask ROS: "rosmsg show ME439WheelDisplacements"
     # Syntax is msg_in.variable_name
-    d_left = 0.
-    d_right = 0.
+    d_left = msg_in.d_left
+    d_right = msg_in.d_right
     
 ####    CODE HERE: Compute the CHANGE in displacement of each wheel
     # REPLACE the zeros with the proper expressions. 
     diff_left = d_left - d_left_previous
-    diff_right = 0.
+    diff_right = d_right - d_right_previous
     
 ####    CODE HERE: STORE the new values of d_left and d_right for the next call
     # REPLACE the zeros with the proper expressions. 
-    d_left_previous = 0.
-    d_right_previous = 0.
+    d_left_previous = d_left
+    d_right_previous = d_right
     
 ####    CODE HERE: compute change in path length and change in angle
     # REPLACE the zeros with the proper expressions (see lecture notes). 
     # use "diff_left" and "diff_right" which were set a few lines above. 
-    diff_pathlength = 0.
-    diff_theta = 0.
+    diff_pathlength = (diff_left + diff_right) / 2
+    diff_theta = (diff_right - diff_left) / wheel_width 
 
 ####    CODE HERE: compute the AVERAGE heading angle (theta) during the movement 
     # This makes the dead-reckoning more accurate than using just the old theta or the new one. 
@@ -141,9 +141,9 @@ def dead_reckoning(msg_in):
 ####    CODE HERE: compute the change in position and heading according to the dead-reckoning equations
     # REPLACE the zeros with the proper expressions (see lecture notes). 
     # Remember that sine and cosine are in the "numpy" package, which has been imported as "np"
-    r_center_world_estimated[0] = 0.      # x-direction position
-    r_center_world_estimated[1] = 0.      # y-direction position
-    theta_estimated = 0.
+    r_center_world_estimated[0] = r_center_world_estimated[0] - diff_pathlength*numpy.sine(theta_estimated + (diff_theta/2))      # x-direction position
+    r_center_world_estimated[1] = r_center_world_estimated[1] + diff_pathlength*numpy.cosine(theta_estimated + (diff_theta/2))     # y-direction position
+    theta_estimated = theta_estimated + diff_theta
 
 #==============================================================================
 #     End of function "dead_reckoning"

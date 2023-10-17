@@ -54,7 +54,7 @@ def listener():
 #     #  Set the function "dead_reckoning" as a callback - this is the function 
 #     #  that will be called when a message comes in. 
 #==============================================================================
-    sub_wheel_disps = rospy.Subscriber( '/robot_wheel_displacements', ME439WheelDisplacements, 'dead_reckoning' )  
+    sub_wheel_disps = rospy.Subscriber( '/robot_wheel_displacements', ME439WheelDisplacements, dead_reckoning)  
 
     
 #==============================================================================
@@ -141,8 +141,8 @@ def dead_reckoning(msg_in):
 ####    CODE HERE: compute the change in position and heading according to the dead-reckoning equations
     # REPLACE the zeros with the proper expressions (see lecture notes). 
     # Remember that sine and cosine are in the "numpy" package, which has been imported as "np"
-    r_center_world_estimated[0] = r_center_world_estimated[0] - diff_pathlength*numpy.sine(theta_estimated + (diff_theta/2))      # x-direction position
-    r_center_world_estimated[1] = r_center_world_estimated[1] + diff_pathlength*numpy.cosine(theta_estimated + (diff_theta/2))     # y-direction position
+    r_center_world_estimated[0] = r_center_world_estimated[0] - diff_pathlength * np.sine(theta_avg)      # x-direction position
+    r_center_world_estimated[1] = r_center_world_estimated[1] + diff_pathlength * np.cosine(theta_avg)     # y-direction position
     theta_estimated = theta_estimated + diff_theta
 
 #==============================================================================

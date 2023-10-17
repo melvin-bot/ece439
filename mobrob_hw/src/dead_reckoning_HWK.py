@@ -73,7 +73,7 @@ def listener():
 #     # Here a Publisher for the Estimated Robot Pose. 
 #     # Topic '/robot_pose_estimated', Message type: Pose2D
 #==============================================================================
-    pub_robot_pose_estimated = rospy.Publisher(  '/robot_pose_estimaged', Pose2D, queue_size = 1)
+    pub_robot_pose_estimated = rospy.Publisher(  '/robot_pose_estimated', Pose2D, queue_size = 1)
     robot_pose_estimated_message = Pose2D()
 
     

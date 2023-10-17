@@ -141,7 +141,7 @@ def dead_reckoning(msg_in):
 ####    CODE HERE: compute the change in position and heading according to the dead-reckoning equations
     # REPLACE the zeros with the proper expressions (see lecture notes). 
     # Remember that sine and cosine are in the "numpy" package, which has been imported as "np"
-    r_center_world_estimated[0] = r_center_world_estimated[0] - diff_pathlength * np.sint(heta_avg)      # x-direction position
+    r_center_world_estimated[0] = r_center_world_estimated[0] - diff_pathlength * np.sin(theta_avg)      # x-direction position
     r_center_world_estimated[1] = r_center_world_estimated[1] + diff_pathlength * np.cos(theta_avg)     # y-direction position
     theta_estimated = theta_estimated + diff_theta
 

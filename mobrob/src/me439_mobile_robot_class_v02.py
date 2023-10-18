@@ -207,7 +207,7 @@ class robot:
         
 ####    CODE HERE: 
         vec = np.array([xf-x0,yf-y0]) # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
-        dist = np.sqrt((xf-x0)^2 + (yf-y0)^2)    # distance from [x0,y0] to [xf,yf], a Scalar
+        dist = np.sqrt((xf-x0) ** 2 + (yf-y0) ** 2)    # distance from [x0,y0] to [xf,yf], a Scalar
         vecangle = np.arctan2((xf-x0) / (yf-y0))       # Vector angle: angle of the vector directly to the end point. A Scalar, compute with numpy's "arctan2"
 ####    CODE END
         return [x0, y0, vecangle, np.inf, dist]    # Return

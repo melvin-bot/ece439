@@ -49,11 +49,11 @@ wheel_radius = wheel_diameter/2.0
 
 ####    CODE HERE: 
 # Closed-loop controller parameters: get them from the ROS parameters imported from the YAML file. 
-Vmax = 0.0 
-Beta = 0.0 
-gamma = 0.0 
-angle_focus_factor = 0.0 
-forward_only = 0
+Vmax = rospy.get_param('/Vmax')
+Beta = rospy.get_param('/Beta')
+gamma = rospy.get_param('/gamma')
+angle_focus_factor = rospy.get_param('angle_focus_factor')
+forward_only = rospy.get_param('forward_only')
 ####    CODE END
 
 # Create a mobile robot object from the Imported module "me439_mobile_robot_class"
@@ -64,10 +64,10 @@ path_is_complete = False
 
 ####    CODE HERE: Create two publishers as described
 # Create the publisher. Name the topic "wheel_speeds_desired", with message type "ME439WheelSpeeds"
-pub_speeds = []
+pub_speeds = rospy.Publisher('/wheel_speeds_desired', ME439WheelSpeeds, queue_size = 1)
 
 # Create the publisher for "segment_complete". Name the topic "segment_complete", with message type "Bool"
-pub_segment_complete = []
+pub_segment_complete = rospy.Publisher('segment_complete', Bool, queue_size = 1)
 ####    CODE END
 
 # Set up the node and its subscriptions, and keep it alive.
@@ -219,12 +219,12 @@ def path_follow(pose_msg_in):
     
 ####    CODE HERE:  Put in formulas for anything that is 0.0, and try the "TRY THIS" variations. 
     # First set the speed with which we want the robot to approach the path
-    xdot_local_desired = 0.0   # Use formula from Lecture
+    xdot_local_desired = -Beta*x_local   # Use formula from Lecture
     # limit it to +-Vmax
     xdot_local_desired = np.min([np.abs(xdot_local_desired),abs(Vmax)])*np.sign(xdot_local_desired)
     
     # Next set the desired theta_local 
-    theta_local_desired = 0.0   # Use formula from Lecture
+    theta_local_desired = np.arcsin((-xdot_local_desired)/Vmax)   # Use formula from Lecture
             
     ## Next SET SPEED OF ROBOT CENTER. 
     ## G. Cook 2011 says just use constant speed all the time,

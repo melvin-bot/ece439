@@ -226,7 +226,7 @@ class robot:
 
 ####    CODE HERE:  Edit everything that has 0.0 or [] assigned to give it the right values!       
         vec = np.array([xf-x0,yf-y0]) # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
-        dist = np.sqrt((xf-x0)^2 + (yf-y0)^2)     # distance from [x0,y0] to [xf,yf], a Scalar
+        dist = np.sqrt((xf-x0) ** 2 + (yf-y0) ** 2)     # distance from [x0,y0] to [xf,yf], a Scalar
         
         # Code to determine how a circular path of Radius R can get from start to finish of this path segment.  
         if dist > 2.0*np.abs(R):            # If the endpoint is farther away than the diameter of the circle, an arc cannot get there and you must draw a line instead. 

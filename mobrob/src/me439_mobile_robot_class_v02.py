@@ -230,7 +230,7 @@ class robot:
         
         # Code to determine how a circular path of Radius R can get from start to finish of this path segment.  
         if dist > 2.0*np.abs(R):            # If the endpoint is farther away than the diameter of the circle, an arc cannot get there and you must draw a line instead. 
-            specs = []  # Use the "self.specify_line(...)" function above for this case! 
+            specs = self.specify_line(x0,y0,xf,yf)  # Use the "self.specify_line(...)" function above for this case! 
         else:                       # Otherwise find an arc. 
             arcangle = 2.0*np.arcsin((dist/2.0)/R )     # Smallest arc angle is swept if going the "short way" around the circle. The distance from start to finish is the "chord length" and relates to the included angle as shown. 
             if way.lower() == 'long':

@@ -78,8 +78,8 @@ class robot:
         ### to left and right wheel speeds. 
         ### Use the variables "forward_velocity" and "angular_velocity" that the function takes as input. 
         ### Use "self.wheel_width" as the robot's parameter for wheel width. 
-        left_wheel_speed = 0. 
-        right_wheel_speed = 0. 
+        left_wheel_speed = forward_velocity - angular_velocity*self.wheel_width/2 
+        right_wheel_speed = forward_velocity + angular_velocity*self.wheel_width/2 
         
         self.set_wheel_speeds(left_wheel_speed, right_wheel_speed)
 #### END CODE
@@ -131,7 +131,7 @@ class robot:
         rgt_whl_spd = speed
         
         # COMPUTE the duration (time in seconds) for which they should turn at these speeds.
-        duration = 0.
+        duration = length/speed
         
         return [duration, lft_whl_spd, rgt_whl_spd]
         
@@ -142,17 +142,17 @@ class robot:
 # =============================================================================
     def plan_arc(self, radius, speed, angle):
         # COMPUTE the Left and Right wheel speeds using formulas from lecture
-        lft_whl_spd = 0.
-        rgt_whl_spd = 0.
+        lft_whl_spd = speed*(1 - (self.wheel_width/(2*radius) ) )
+        rgt_whl_spd = speed*(1 + (self.wheel_width/(2*radius) ) )
         
         # COMPUTE "omega" - the angular rate of progress around the circle
-        omega = 0.
+        omega = speed/radius
         
         # Trick: correct funky combinations of signs
         omega = np.abs(omega)*np.sign(angle)
         
         # COMPUTE the duration (time in seconds) for which they should turn at these speeds.
-        duration = 0.
+        duration = angle/omega
         
         return [duration, lft_whl_spd, rgt_whl_spd]
         
@@ -170,11 +170,11 @@ class robot:
         
         # COMPUTE wheel speeds using equations from lecture 
         radius = 0  # for a Pivot
-        lft_whl_spd = 0.
-        rgt_whl_spd = 0.
+        lft_whl_spd = omega*(radius-(self.wheel_width/2))
+        rgt_whl_spd = omega*(radius+(self.wheel_width/2))
         
         # COMPUTE the duration (time in seconds) for which they should turn at these speeds.
-        duration = 0.
+        duration = angle/omega
         
         return [duration, lft_whl_spd, rgt_whl_spd]
         
@@ -191,3 +191,129 @@ class robot:
         return [duration, lft_whl_spd, rgt_whl_spd]        
 ####    CODE END    
     
+    
+###############################################################################
+# Functions that specify paths for closed-loop following
+# using [x0, y0, theta0, Radius, Length] parameters. 
+###############################################################################
+    def specify_line(self, x0,y0,xf,yf):
+        ### Function to create specs for a line from [x0,y0] to [xf,yf]. 
+        # arguments: x0 (m), y0 (m), xfinal (m), yfinal (0)
+        ## Turn them all into Floats (Python 2 requires this to avoid integer math)
+        x0 = float(x0)
+        y0 = float(y0)
+        xf = float(xf)
+        yf = float(yf)
+        
+####    CODE HERE: 
+        vec = np.array([0.,0.]) # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
+        dist = 0.0     # distance from [x0,y0] to [xf,yf], a Scalar
+        vecangle = 0.0       # Vector angle: angle of the vector directly to the end point. A Scalar, compute with numpy's "arctan2"
+####    CODE END
+        return [x0, y0, vecangle, np.inf, dist]    # Return
+
+
+    def specify_arc(self, x0,y0,xf,yf,R,way='short'):
+        ### Function to create specs for an arc from [x0,y0] to [xf,yf] with radius R, 
+        ###   going the "short way" or the "long way" around the circle.
+        # arguments: x0 (m), y0 (m), xfinal (m), yfinal (0), Radius (m), way (='short' or 'long')
+        ## Turn them all into Floats (Python 2 requires this to avoid integer math)
+        x0 = float(x0)
+        y0 = float(y0)
+        xf = float(xf)
+        yf = float(yf)
+        R = float(R)
+
+####    CODE HERE:  Edit everything that has 0.0 or [] assigned to give it the right values!       
+        vec = np.array([0.0,0.0]) # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
+        dist = 0.0     # distance from [x0,y0] to [xf,yf], a Scalar
+        
+        # Code to determine how a circular path of Radius R can get from start to finish of this path segment.  
+        if dist > 2.0*np.abs(R):            # If the endpoint is farther away than the diameter of the circle, an arc cannot get there and you must draw a line instead. 
+            specs = []  # Use the "self.specify_line(...)" function above for this case! 
+        else:                       # Otherwise find an arc. 
+            arcangle = 2.0*np.arcsin((dist/2.0)/R )     # Smallest arc angle is swept if going the "short way" around the circle. The distance from start to finish is the "chord length" and relates to the included angle as shown. 
+            if way.lower() == 'long':
+                arcangle = 2*np.pi*np.sign(arcangle) - arcangle     # arc angle swept if going the "long way": a full circle is 2*pi, so the long way is 2*pi minus the short way. Note the signs. 
+            vecangle = 0.0       # Vector angle: angle of the vector directly from the start point to the end point.
+            initangle = vecangle - arcangle/2.0         # Initial tangent angle of the arc to be followed. Deviates from the direct straignt line by half the included angle of the arc. 
+            initangle = fix_angle_pi_to_neg_pi(initangle)   # Could have gone past pi with the addition. Unwrap to make sure it's within +/- pi. 
+            arclength = 0.0                      # arc length is also needed. Enter it based on Radius and Angle. 
+            specs = [x0,y0,initangle, R, arclength]
+####    CODE END        
+        
+        return specs	
+    
+		
+
+		
+#%% 
+#############################################################
+# General Utility Functions        
+#############################################################
+def fix_angle_pi_to_neg_pi(angle): 
+    # Function to "unwrap" angles into the [-pi, pi) interval
+    return np.mod(angle+np.pi,2*np.pi)-np.pi        
+
+
+####    CODE HERE: 
+def convert_stage_settings_to_path_specs(xytheta_init, stages, wheel_width):
+    ### Kinematic utility function to convert "stage settings" commands 
+    ### (time, left_wheel_speed, right_wheel_speed)
+    ### Into Path Geometry (series of arcs).
+    
+    # Initial point is as given: 
+    xytheta_beginning = xytheta_init
+    
+    # Create an empty array to hold the path specs (variable "paths")
+    paths = np.array([[]])    
+    
+    # Loop through the "stages" (like "stage_settings" from past versions) and convert each to a set of "path_specs" 
+    for ii in range(0,stages.shape[0]):
+        # First unpack the stage_settings
+        xy_beg = xytheta_beginning[0:2]
+        theta_beg = xytheta_beginning[2]    # What is the initial angle? 
+        delta_time = stages[ii,0]    # Duration of the stage
+        left_vel = stages[ii,1]    # Left wheel velocity
+        right_vel = stages[ii,2]    # Right wheel velocity
+        
+####    CODE HERE: 
+        # Then compute the robot's kinematic state during this Stage
+        robot_vel = 0.0    # Determine the velocity of the robot
+        robot_omega = 0.0    # Determine the angular velocity of the robot
+        # Then compute the length and angle of the path it follows
+        path_length = 0.0    # Determine the path segment's length (e.g. use speed and time)
+        delta_theta = 0.0    # Determine the path segment's change in angle 
+
+        # Determine the radius of curvature of the path segment
+        if robot_omega == 0:    
+            path_radius = 0.0    # If there's Zero angular velocity, what does that mean about the Radius? 
+        else:
+            path_radius = 0.0    # Otherwise what's the standard relationship among Radius, velocity and angular velocity? 
+####    CODE END     
+        
+        ## Now compute where the path segment will end    
+        # First, the ending tangent angle of the path
+        theta_end = theta_beg+delta_theta 
+
+        # Next the endpoint location in space 
+        if np.isinf(path_radius):    # First handle the case of a Line
+            xy_end = xy_beg + path_length*np.array([-np.sin(theta_beg), np.cos(theta_beg)])
+        else:        # Otherwise handle Arcs. 
+            # find circle center. Note it is a distance of (-R) out the wheel axis to the Right of the robot. 
+            circle_center = xytheta_beginning[0:2] + -path_radius*np.array([np.cos(theta_beg), np.sin(theta_beg)])
+            xy_end = circle_center + path_radius*np.array([np.cos(theta_end), np.sin(theta_end)])
+        
+        # Put the new path into a list of sequential path segments. 
+        # Includes error handling for the case when there's only one - to make sure the result is the right shape. 
+        if not (xy_end == xy_beg).all() :
+            if not paths.any():
+                paths = np.atleast_2d(np.append(xytheta_beginning,[path_radius,path_length]))
+            else:
+                paths = np.vstack((paths,np.append(xytheta_beginning,[path_radius,path_length])))
+        
+        # Store the new endpoint and end angle as the beginning of the next one. "append" just puts these together (not appending them to any other variable).
+        xytheta_beginning = np.append(xy_end,theta_end)
+        
+    return paths				
+

@@ -245,7 +245,7 @@ def path_follow(pose_msg_in):
     
     # Finally set the desired angular rate
     estimated_theta_local_error = m439rbt.fix_angle_pi_to_neg_pi(theta_local_desired - estimated_theta_local)
-    omega = 0.0
+    omega = gamma * estimated_theta_local_error + path_segment_curvature / (1 + path_segment_curvature * estimated_x_local) * Vc * np.cos(estimated_theta_local)
 ####    CODE END    
     
     # Finally, use the "robot" object created elsewhere (member of the me439_mobile_robot_xx class) to translate omega and Vc into wheel speeds

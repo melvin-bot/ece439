@@ -219,7 +219,7 @@ def path_follow(pose_msg_in):
     
 ####    CODE HERE:  Put in formulas for anything that is 0.0, and try the "TRY THIS" variations. 
     # First set the speed with which we want the robot to approach the path
-    xdot_local_desired = -Beta*x_local   # Use formula from Lecture
+    xdot_local_desired = -Beta*estimated_x_local   # Use formula from Lecture
     # limit it to +-Vmax
     xdot_local_desired = np.min([np.abs(xdot_local_desired),abs(Vmax)])*np.sign(xdot_local_desired)
     

@@ -52,8 +52,8 @@ wheel_radius = wheel_diameter/2.0
 Vmax = rospy.get_param('/Vmax')
 Beta = rospy.get_param('/Beta')
 gamma = rospy.get_param('/gamma')
-angle_focus_factor = rospy.get_param('angle_focus_factor')
-forward_only = rospy.get_param('forward_only')
+angle_focus_factor = rospy.get_param('/angle_focus_factor')
+forward_only = rospy.get_param('/forward_only')
 ####    CODE END
 
 # Create a mobile robot object from the Imported module "me439_mobile_robot_class"

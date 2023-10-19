@@ -96,9 +96,7 @@ robot = m439rbt.robot(wheel_width, body_length, wheel_radius)
 #   specify_line(x0,y0,xf,yf)
 #   specify_arc(x0,y0,xf,yf,R,way='short')     # or way='long' (do you want the "short way" or the "long way" around the circle?)
 ####     CODE HERE: 
-path_specs = np.array(robot.specify_line(0,0,0,1))
-path_spec = np.array(robot.specify_arc(0,1,4,1,2,way='short'))
-path_specs = np.array(robot.specify_line(4,1,4,0))
+path_specs = np.array(robot.specify_line(0,0,0,1), robot.specify_arc(0,1,4,1,2,way='short'), robot.specify_line(4,1,4,0))
 ####    CODE END
 
 

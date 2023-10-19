@@ -63,7 +63,7 @@ robot = m439rbt.robot(wheel_width, body_length, wheel_radius)
 ###############################################################################
 # 1 m circle starting at [0.5,0.5], using geometric constructor functions. 
 # NOTE that a full circle is a degenerate case, so it has to be done in two halves: 
-#path_specs = np.array([robot.specify_arc(0.5,0.5,2.5,0.5,-1,way='long'),robot.specify_arc(2.5,0.5,0.5,0.5,-1,way='long')] )
+path_specs = np.array([robot.specify_arc(0.5,0.5,2.5,0.5,-1,way='long'),robot.specify_arc(2.5,0.5,0.5,0.5,-1,way='long')] )
 ## 1 m circle starting at [-2,-2], using geometric constructor functions. 
 ## NOTE that a full circle is a degenerate case, so it has to be done in two halves: 
 #path_specs = np.array([robot.specify_arc(-2,-2,0,-2,-1,way='long'),robot.specify_arc(0,-2,-2,-2,-1,way='long')] )
@@ -96,7 +96,7 @@ robot = m439rbt.robot(wheel_width, body_length, wheel_radius)
 #   specify_line(x0,y0,xf,yf)
 #   specify_arc(x0,y0,xf,yf,R,way='short')     # or way='long' (do you want the "short way" or the "long way" around the circle?)
 ####     CODE HERE: 
-path_specs = np.array(robot.specify_line(0,0,0,1), robot.specify_arc(0,1,4,1,2,way='short'), robot.specify_line(4,1,4,0))
+#path_specs = np.array(robot.specify_line(0,0,0,1))
 ####    CODE END
 
 

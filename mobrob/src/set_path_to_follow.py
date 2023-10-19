@@ -93,8 +93,11 @@ path_specs = np.array([robot.specify_arc(0.3,-0.2,0.0,0.3,1.0,way='short'), robo
 #path_specs = parsesvg.convert_svg_to_path_specs(path_file_svg, xlength=1., ylength=1.)    # Parse the SVG file for "d=" lines (paths)
 
 
+#   specify_line(x0,y0,xf,yf)
+#   specify_arc(x0,y0,xf,yf,R,way='short')     # or way='long' (do you want the "short way" or the "long way" around the circle?)
 ####     CODE HERE: 
-## Create other Paths of your own design. ##
+path_specs = np.array(specify_line(0,0,1,1))
+
 ####    CODE END
 
 

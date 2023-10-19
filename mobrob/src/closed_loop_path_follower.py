@@ -64,10 +64,10 @@ path_is_complete = False
 
 ####    CODE HERE: Create two publishers as described
 # Create the publisher. Name the topic "wheel_speeds_desired", with message type "ME439WheelSpeeds"
-pub_speeds = rospy.Publisher('/wheel_speeds_desired', ME439WheelSpeeds, queue_size = 1)
+pub_speeds = rospy.Publisher('/wheel_speeds_desired', ME439WheelSpeeds, queue_size=1)
 
 # Create the publisher for "segment_complete". Name the topic "segment_complete", with message type "Bool"
-pub_segment_complete = rospy.Publisher('segment_complete', Bool, queue_size = 1)
+pub_segment_complete = rospy.Publisher('/segment_complete', Bool, queue_size=1)
 ####    CODE END
 
 # Set up the node and its subscriptions, and keep it alive.
@@ -224,7 +224,7 @@ def path_follow(pose_msg_in):
     xdot_local_desired = np.min([np.abs(xdot_local_desired),abs(Vmax)])*np.sign(xdot_local_desired)
     
     # Next set the desired theta_local 
-    theta_local_desired = np.arcsin((-xdot_local_desired)/Vmax)   # Use formula from Lecture
+    theta_local_desired = np.arcsin(-xdot_local_desired/Vmax)   # Use formula from Lecture
             
     ## Next SET SPEED OF ROBOT CENTER. 
     ## G. Cook 2011 says just use constant speed all the time,
@@ -245,7 +245,7 @@ def path_follow(pose_msg_in):
     
     # Finally set the desired angular rate
     estimated_theta_local_error = m439rbt.fix_angle_pi_to_neg_pi(theta_local_desired - estimated_theta_local)
-    omega = gamma * estimated_theta_local_error + path_segment_curvature / (1 + path_segment_curvature * estimated_x_local) * Vc * np.cos(estimated_theta_local)
+    omega = gamma*estimated_theta_local_error + Vc*(path_segment_curvature/(1.0+path_segment_curvature*estimated_x_local))*np.cos(estimated_theta_local)
 ####    CODE END    
     
     # Finally, use the "robot" object created elsewhere (member of the me439_mobile_robot_xx class) to translate omega and Vc into wheel speeds

@@ -69,7 +69,6 @@ path_specs = np.array([robot.specify_arc(0.5,0.5,2.5,0.5,-1,way='long'),robot.sp
 #path_specs = np.array([robot.specify_arc(-2,-2,0,-2,-1,way='long'),robot.specify_arc(0,-2,-2,-2,-1,way='long')] )
 ## Arc of radius 1 m from [0.3, -0.2] to [0,0.3] and then line back to [0,0]:
 #path_specs = np.array([robot.specify_arc(0.3,-0.2,0.0,0.3,1.0,way='short'), robot.specify_line(0.0,0.3,0.0,0.0)])
-# path_specs = np.array([robot.specify_arc(0.3,-0.2,0.0,0.3,1.0,way='short'), robot.specify_line(0.0,0.3,0.0,0.0)])
 
 ###############################################################################
 ## Interesting "bug" demos: STUDENTS: THINK ABOUT WHY THESE BEHAVE ODDLY (if they do):  
@@ -81,38 +80,6 @@ path_specs = np.array([robot.specify_arc(0.5,0.5,2.5,0.5,-1,way='long'),robot.sp
 ## Line from [-1,-1] to [-1,3]:
 #path_specs = np.array([[-1,-1,0,np.inf,4]])
 
-###############################################################################
-## Initials!
-###############################################################################
-char_height = 0.5
-char_width = 0.3
-char_spacing = 0.1
-
-start_M = np.array([0, 0])
-start_J = start_M + np.array([char_width + char_spacing, 0])
-start_W = start_J + np.array([char_width + char_spacing, char_height])
-
-path_specs = np.array([
-    # M
-    robot.specify_line(start_M[0], start_M[1], start_M[0], start_M[1]+char_height),
-    robot.specify_line(start_M[0], start_M[1]+char_height, start_M[0]+char_width/2, start_M[1]+char_height-char_width/2),
-    robot.specify_line(start_M[0]+char_width/2, start_M[1]+char_height-char_width/2, start_M[0]+char_width, start_M[1]+char_height),
-    robot.specify_line(start_M[0]+char_width, start_M[1]+char_height, start_M[0]+char_width, start_M[1]),
-    robot.specify_line(start_M[0]+char_width, start_M[1], start_J[0], start_J[1]),
-
-    # J
-    robot.specify_arc(start_J[0], start_J[1], start_J[0]+char_width/2, start_J[1]+char_width/2, char_width/2),
-    robot.specify_line(start_J[0]+char_width/2, start_J[1]+char_width/2, start_J[0]+char_width/2, start_J[1]+char_height),
-    robot.specify_line(start_J[0]+char_width/2, start_J[1]+char_height, start_J[0], start_J[1]+char_height),
-    robot.specify_line(start_J[0], start_J[1]+char_height, start_J[0]+char_width, start_J[1]+char_height),
-    robot.specify_line(start_J[0]+char_width, start_J[1]+char_height, start_W[0], start_W[1]),
-
-    # W
-    robot.specify_line(start_W[0], start_W[1], start_W[0], start_W[1]-char_height),
-    robot.specify_line(start_W[0], start_W[1]-char_height, start_W[0]+char_width/2, start_W[1]-char_height+char_width/2),
-    robot.specify_line(start_W[0]+char_width/2, start_W[1]-char_height+char_width/2, start_W[0]+char_width, start_W[1]-char_height),
-    robot.specify_line(start_W[0]+char_width, start_W[1]-char_height, start_W[0]+char_width, start_W[1]),
-])
 
 ###############################################################################
 ## ALTERNATIVELY: get path specs from an SVG file: 
@@ -126,10 +93,8 @@ path_specs = np.array([
 #path_specs = parsesvg.convert_svg_to_path_specs(path_file_svg, xlength=1., ylength=1.)    # Parse the SVG file for "d=" lines (paths)
 
 
-#   specify_line(x0,y0,xf,yf)
-#   specify_arc(x0,y0,xf,yf,R,way='short')     # or way='long' (do you want the "short way" or the "long way" around the circle?)
 ####     CODE HERE: 
-#path_specs = np.array(robot.specify_line(0,0,0,1))
+## Create other Paths of your own design. ##
 ####    CODE END
 
 

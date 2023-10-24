@@ -24,8 +24,8 @@
 
  <!-- Edit the "robot_control" group to launch the "closed_loop_path_follower.py" and "set_path_to_follow.py" nodes. --> 
   <group ns="robot_control">
-    <node pkg="mobrob" name="closed_loop_path_follower" type="closed_loop_path_follower.py"    />    
-    <node pkg="mobrob" name="set_path_to_follow" type="set_path_to_follow.py"    />  
+    <node pkg="mobrob" name="closed_loop_path_follower" type="closed_loop_path_follower.py"/>    
+    <node pkg="mobrob" name="set_path_to_follow" type="set_path_to_follow.py"/>
   </group>
   
   

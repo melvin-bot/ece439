@@ -49,10 +49,10 @@ wheel_radius = wheel_diameter/2.0
 
 ####    CODE HERE: 
 # Closed-loop controller parameters: get them from the ROS parameters imported from the YAML file. 
-Vmax = rospy.get_param('/Vmax')
-Beta = rospy.get_param('/Beta')
-gamma = rospy.get_param('/gamma')
-angle_focus_factor = rospy.get_param('/angle_focus_factor')
+Vmax = rospy.get_param('/Vmax') 
+Beta = rospy.get_param('/Beta') 
+gamma = rospy.get_param('/gamma') 
+angle_focus_factor = rospy.get_param('/angle_focus_factor') 
 forward_only = rospy.get_param('/forward_only')
 ####    CODE END
 

@@ -206,9 +206,9 @@ class robot:
         yf = float(yf)
         
 ####    CODE HERE: 
-        vec = np.array([xf-x0,yf-y0])           # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
-        dist = np.linalg.norm(vec)              # distance from [x0,y0] to [xf,yf], a Scalar
-        vecangle = np.arctan2(-vec[0], vec[1])  # Vector angle: angle of the vector directly to the end point. A Scalar, compute with numpy's "arctan2"
+        vec = np.array([xf,yf]) - np.array([x0,y0]) # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
+        dist = np.sqrt(np.dot(vec,vec))     # distance from [x0,y0] to [xf,yf], a Scalar
+        vecangle = np.arctan2(-vec[0],vec[1])       # Vector angle: angle of the vector directly to the end point. A Scalar, compute with numpy's "arctan2"
 ####    CODE END
 
         return [x0, y0, vecangle, np.inf, dist]    # Return
@@ -226,21 +226,21 @@ class robot:
         R = float(R)
 
 ####    CODE HERE:  Edit everything that has 0.0 or [] assigned to give it the right values!       
-        vec = np.array([xf-x0,yf-y0])   # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
-        dist = np.linalg.norm(vec)      # distance from [x0,y0] to [xf,yf], a Scalar
+        vec = np.array([xf,yf]) - np.array([x0,y0]) # vector from [x0,y0] to [xf,yf], stored as a numpy array (np.array())
+        dist = np.sqrt(np.dot(vec,vec))     # distance from [x0,y0] to [xf,yf], a Scalar
         
         # Code to determine how a circular path of Radius R can get from start to finish of this path segment.  
-        if dist > 2.0*np.abs(R):                                # If the endpoint is farther away than the diameter of the circle, an arc cannot get there and you must draw a line instead. 
-            specs = self.specify_line(x0,y0,xf,yf)              # Use the "self.specify_line(...)" function above for this case! 
-        else:                                                   # Otherwise find an arc. 
-            arcangle = 2.0*np.arcsin((dist/2.0)/R )             # Smallest arc angle is swept if going the "short way" around the circle. The distance from start to finish is the "chord length" and relates to the included angle as shown. 
+        if dist > 2.0*np.abs(R):            # If the endpoint is farther away than the diameter of the circle, an arc cannot get there and you must draw a line instead. 
+            specs = self.specify_line(x0,y0,xf,yf)
+        else:                       # Otherwise find an arc. 
+            arcangle = 2.0*np.arcsin((dist/2.0)/R )     # Smallest arc angle is swept if going the "short way" around the circle. The distance from start to finish is the "chord length" and relates to the included angle as shown. 
             if way.lower() == 'long':
-                arcangle = 2*np.pi*np.sign(arcangle) - arcangle # arc angle swept if going the "long way": a full circle is 2*pi, so the long way is 2*pi minus the short way. Note the signs. 
-            vecangle = np.arctan2(-vec[0], vec[1])              # Vector angle: angle of the vector directly from the start point to the end point.
-            initangle = vecangle - arcangle/2.0                 # Initial tangent angle of the arc to be followed. Deviates from the direct straignt line by half the included angle of the arc. 
-            initangle = fix_angle_pi_to_neg_pi(initangle)       # Could have gone past pi with the addition. Unwrap to make sure it's within +/- pi. 
-            arclength = arcangle * R                            # arc length is also needed. Enter it based on Radius and Angle. 
-            specs = [x0, y0, initangle, R, arclength]
+                arcangle = 2*np.pi*np.sign(arcangle) - arcangle     # arc angle swept if going the "long way": a full circle is 2*pi, so the long way is 2*pi minus the short way. Note the signs. 
+            vecangle = np.arctan2(-vec[0],vec[1])       # Vector angle: angle of the vector directly from the start point to the end point.
+            initangle = vecangle - arcangle/2.0         # Initial tangent angle of the arc to be followed. Deviates from the direct straignt line by half the included angle of the arc. 
+            initangle = fix_angle_pi_to_neg_pi(initangle)   # Could have gone past pi with the addition. Unwrap to make sure it's within +/- pi. 
+            arclength = arcangle*R                      # arc length is also needed. Enter it based on Radius and Angle. 
+            specs = [x0,y0,initangle, R, arclength]
 ####    CODE END        
         
         return specs	
@@ -280,19 +280,17 @@ def convert_stage_settings_to_path_specs(xytheta_init, stages, wheel_width):
         
 ####    CODE HERE: 
         # Then compute the robot's kinematic state during this Stage
-        robot_vel = (left_vel * right_vel) / 2    # Determine the velocity of the robot
-        robot_omega = (right_vel - left_vel) / wheel_width   # Determine the angular velocity of the robot
+        robot_vel = (left_vel+right_vel)/2    # Determine the velocity of the robot
+        robot_omega = (right_vel-left_vel)/wheel_width    # Determine the angular velocity of the robot
         # Then compute the length and angle of the path it follows
-        path_length = robot_vel * delta_time    # Determine the path segment's length (e.g. use speed and time)
-        # delta_S_left = (left_vel * delta_time) - xy_beg[0]
-        # delta_S_right = (right_vel * delta_time) - xy_beg[1]
-        delta_theta = delta_time * robot_omega  # Determine the path segment's change in angle 
+        path_length = delta_time*robot_vel    # Determine the path segment's length (e.g. use speed and time)
+        delta_theta = delta_time*robot_omega    # Determine the path segment's change in angle 
 
         # Determine the radius of curvature of the path segment
         if robot_omega == 0:    
             path_radius = np.inf    # If there's Zero angular velocity, what does that mean about the Radius? 
         else:
-            path_radius = robot_vel / robot_omega    # Otherwise what's the standard relationship among Radius, velocity and angular velocity? 
+            path_radius = robot_vel/robot_omega    # Otherwise what's the standard relationship among Radius, velocity and angular velocity? 
 ####    CODE END     
         
         ## Now compute where the path segment will end    

@@ -1,4 +1,4 @@
-<launch>
+<launch> 
   <rosparam command="load" file="$(find mobrob_util)/src/robot_info.yaml" />
   <!-- Add a parameter that finds the SVG file with the path to follow. You can change the path file by entering its name. --> 
   <param name="path_file_svg" value="$(find mobrob)/src/SVGtest.svg" />
@@ -25,9 +25,9 @@
   </group>
 
  <!-- Edit the "robot_control" group to launch the "closed_loop_path_follower.py" and "set_path_to_follow.py" nodes. --> 
-  <group ns="robot_control"> 
-    <node pkg="mobrob" name="closed_loop_path_follower" type="closed_loop_path_follower.py"    />    
-    <node pkg="mobrob" name="set_path_to_follow" type="set_path_to_follow.py"    />      
+  <group ns="robot_control">
+    <node pkg="mobrob" name="closed_loop_path_follower" type="closed_loop_path_follower.py"/>    
+    <node pkg="mobrob" name="set_path_to_follow" type="set_path_to_follow.py"/>
   </group>
   
   

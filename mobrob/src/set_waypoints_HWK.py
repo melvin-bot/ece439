@@ -25,9 +25,9 @@ waypoints = np.array([[0.5, 0.],[0.5,0.5],[0.,0.5],[0.,0.]])
 # NOTE: The "get_param" line is used to get the full path to the SVG file 
 #   This is only necessary to get around a problem with locating files (unknown underlying reason). 
 #   The Parameter is set in the Launch file! 
-import parse_svg_for_path_following as parsesvg    # This is a program that sorts out SVG files to find their waypoints. 
-path_file_svg = rospy.get_param('/path_file_svg')
-waypoints = parsesvg.convert_svg_to_waypoints(path_file_svg, xlength=1., ylength=1.)    
+# import parse_svg_for_path_following as parsesvg    # This is a program that sorts out SVG files to find their waypoints. 
+# path_file_svg = rospy.get_param('/path_file_svg')
+# waypoints = parsesvg.convert_svg_to_waypoints(path_file_svg, xlength=1., ylength=1.)    
 
 # =============================================================================
 # # END of section on waypoint setting
@@ -55,13 +55,13 @@ def talker():
     
 ####    CODE HERE:  Create Publishers and Subscribers as described
     # Create the publisher for the topic "waypoint_xy", with message type "ME439WaypointXY"
-    pub_waypoint_xy = []
+    pub_waypoint_xy = rospy.Publisher('/waypoint_xy', ME439WaypointXY, queue_size=1)
 
     # Create the publisher for the topic "path_complete", with message type "Bool"
-    pub_path_complete = []
+    pub_path_complete = rospy.Publisher('/path_complete', Bool, queue_size=1)
 
     # Create a subscriber that listens for messages on the "waypoint_complete" topic
-    sub_waypoint_complete = []
+    sub_waypoint_complete = rospy.Subscriber('/waypoint_complete', Bool, increment_waypoint)
 ####    CODE END    
 
     # set up a rate basis to keep it on schedule.
@@ -107,8 +107,8 @@ def increment_waypoint(msg_in):
     # # If the message (stored in variable 'msg_in') tells us that '/waypoint_complete' is True, 
     # # Then increment the waypoint number (variable 'waypoint_number'.  
     # # Edit these lines to make that happen. 
-    if False:  # The data type is Boolean (True/False), so this condition is satisfied if the value of msg_in.data is "True"
-        waypoint_number = 0
+    if msg_in.data:  # The data type is Boolean (True/False), so this condition is satisfied if the value of msg_in.data is "True"
+        waypoint_number += 1
 ####    CODE END
     
     # # Handle the special case of the last waypoint: 

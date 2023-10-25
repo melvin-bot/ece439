@@ -34,10 +34,10 @@ waypoint_complete.data = False
 # =============================================================================
 ####    CODE HERE: Create Publishers as specified.
 # Create the publisher. Name the topic "path_segment_spec", with message type "ME439PathSpecs"
-pub_segment_specs = []
+pub_segment_specs = rospy.Publisher('/path_segment_spec', ME439PathSpecs, queue_size=1)
 
 # Create the publisher for the topic "waypoint_complete", with message type "Bool"
-pub_waypoint_complete = []
+pub_waypoint_complete = rospy.Publisher('/waypoint_complete', Bool, queue_size=1)
 ####    CODE END
 
 
@@ -49,10 +49,10 @@ def talker():
 ####    CODE HERE: Create Subscribers as specified.
     # Create a Subscriber to the robot's current estimated position
     # with a callback to "set_path_to_waypoint"
-    sub_robot_pose_estimated = []
+    sub_robot_pose_estimated = rospy.Subscriber('/robot_pose_estimated', Pose2D, set_path_to_waypoint)
 
     # Subscriber to the "waypoint_xy" topic
-    sub_waypoint = []
+    sub_waypoint = rospy.Subscriber('/waypoint_xy', ME439WaypointXY, queue_size=1)
 ####    CODE END  
 
     # Prevent the node from exiting
@@ -75,17 +75,17 @@ def set_path_to_waypoint(pose_msg_in):
         
 ####    CODE HERE: Change values of 0 to meaningful expressions. 
     # Find the X and Y distances from the current position 'estimated_pose' to the active waypoint 'waypoint'
-    dx = 0.     # distance in X coords
-    dy = 0.     # distance in Y coords
+    dx = waypoint.x - estimated_pose.x     # distance in X coords
+    dy = waypoint.y - estimated_pose.y     # distance in Y coords
     
     # Set a ME439PathSpecs message
     # A straight line directly from the current location to the intended location. 
     path_segment_spec = ME439PathSpecs()    # Create a message of the appropriate type (ME439PathSpecs)
-    path_segment_spec.x0 = 0.    # Current Location x
-    path_segment_spec.y0 = 0.    # Current Location y
+    path_segment_spec.x0 = estimated_pose.x    # Current Location x
+    path_segment_spec.y0 = estimated_pose.y    # Current Location y
     path_segment_spec.theta0 = np.arctan2(-dx, dy)    # Angle to the endpoint, using the customary y-forward coordinates. Use arctan2. 
-    path_segment_spec.Radius = 0.    # Radius of a Straight Line
-    path_segment_spec.Length = 0.    # Distance to the endpoint
+    path_segment_spec.Radius = np.inf    # Radius of a Straight Line
+    path_segment_spec.Length = np.sqrt(dx**2 + dy**2)   # Distance to the endpoint
 ####    CODE END    
     
     #  Publish the new 'path_segment_spec', but only if not NAN. 

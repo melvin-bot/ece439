@@ -55,10 +55,10 @@ def talker():
     
 ####    CODE HERE:  Create Publishers and Subscribers as described
     # Create the publisher for the topic "waypoint_xy", with message type "ME439WaypointXY"
-    pub_waypoint_xy = rospy.Publisher('/waypoint_xy', ME439WaypointXY, queue_size=1)
+    pub_waypoint_xy = rospy.Publisher('/waypoint_xy', ME439WaypointXY, queue_size=10)
 
     # Create the publisher for the topic "path_complete", with message type "Bool"
-    pub_path_complete = rospy.Publisher('/path_complete', Bool, queue_size=1)
+    pub_path_complete = rospy.Publisher('/path_complete', Bool, queue_size=10)
 
     # Create a subscriber that listens for messages on the "waypoint_complete" topic
     sub_waypoint_complete = rospy.Subscriber('/waypoint_complete', Bool, increment_waypoint)

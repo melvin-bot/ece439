@@ -34,10 +34,10 @@ waypoint_complete.data = False
 # =============================================================================
 ####    CODE HERE: Create Publishers as specified.
 # Create the publisher. Name the topic "path_segment_spec", with message type "ME439PathSpecs"
-pub_segment_specs = rospy.Publisher('/path_segment_spec', ME439PathSpecs, queue_size=1)
+pub_segment_specs = rospy.Publisher('/path_segment_spec', ME439PathSpecs, queue_size=10)
 
 # Create the publisher for the topic "waypoint_complete", with message type "Bool"
-pub_waypoint_complete = rospy.Publisher('/waypoint_complete', Bool, queue_size=1)
+pub_waypoint_complete = rospy.Publisher('/waypoint_complete', Bool, queue_size=10)
 ####    CODE END
 
 
@@ -52,7 +52,7 @@ def talker():
     sub_robot_pose_estimated = rospy.Subscriber('/robot_pose_estimated', Pose2D, set_path_to_waypoint)
 
     # Subscriber to the "waypoint_xy" topic
-    sub_waypoint = rospy.Subscriber('/waypoint_xy', ME439WaypointXY, queue_size=1)
+    sub_waypoint = rospy.Subscriber('/waypoint_xy', ME439WaypointXY, queue_size=10)
 ####    CODE END  
 
     # Prevent the node from exiting

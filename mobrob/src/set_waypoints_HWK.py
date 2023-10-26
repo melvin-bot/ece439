@@ -18,16 +18,16 @@ from std_msgs.msg import Bool
 
 # Waypoints to hit: a "numpy.array" of [x,y] coordinates. 
 # Example: Square
-waypoints = np.array([[0.5, 0.],[0.5,0.5],[0.,0.5],[0.,0.]])
+#waypoints = np.array([[0.5, 0.],[0.5,0.5],[0.,0.5],[0.,0.]])
 
 # Alternative: get waypoints from an SVG file: 
 #   uses "parse_svg_for_path_following", a program that reads SVG images and converts the lines to waypoints. 
 # NOTE: The "get_param" line is used to get the full path to the SVG file 
 #   This is only necessary to get around a problem with locating files (unknown underlying reason). 
 #   The Parameter is set in the Launch file! 
-# import parse_svg_for_path_following as parsesvg    # This is a program that sorts out SVG files to find their waypoints. 
-# path_file_svg = rospy.get_param('/path_file_svg')
-# waypoints = parsesvg.convert_svg_to_waypoints(path_file_svg, xlength=1., ylength=1.)    
+import parse_svg_for_path_following as parsesvg    # This is a program that sorts out SVG files to find their waypoints. 
+path_file_svg = rospy.get_param('/path_file_svg')
+waypoints = parsesvg.convert_svg_to_waypoints(path_file_svg, xlength=1., ylength=1.)    
 
 # =============================================================================
 # # END of section on waypoint setting

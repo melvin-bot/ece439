@@ -35,6 +35,6 @@ Vmax: 0.2
 Beta: 2.  
 gamma: 3.  
 angle_focus_factor: 0.0
-waypoint_tolerance: 0.02
+waypoint_tolerance: 0.1
 forward_only: true
 

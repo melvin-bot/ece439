@@ -34,7 +34,7 @@ speed_of_sound_meterspersec: 343.0
 Vmax: 0.3
 Beta: 4.  
 gamma: 1.  
-angle_focus_factor: 3.0
+angle_focus_factor: 2.0
 waypoint_tolerance: 0.15
 forward_only: true
 

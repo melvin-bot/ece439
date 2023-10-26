@@ -32,7 +32,7 @@
   <group ns="robot_control">
     <node pkg="mobrob" name="closed_loop_path_follower" type="closed_loop_path_follower.py"/>    
     <node pkg="mobrob" name="waypoint_seeker" type="waypoint_seeker_HWK.py"/>    
-    <node pkg="mobrob" name="set_waypoints" type="set_waypoitns_HWK.py"/>    
+    <node pkg="mobrob" name="set_waypoints" type="set_waypoints_HWK.py"/>    
   </group>
   
   

@@ -63,7 +63,7 @@ robot = m439rbt.robot(wheel_width, body_length, wheel_radius)
 ###############################################################################
 # 1 m circle starting at [0.5,0.5], using geometric constructor functions. 
 # NOTE that a full circle is a degenerate case, so it has to be done in two halves: 
-path_specs = np.array([robot.specify_arc(0.5,0.5,2.5,0.5,-1,way='long'),robot.specify_arc(2.5,0.5,0.5,0.5,-1,way='long')] )
+# path_specs = np.array([robot.specify_arc(0.5,0.5,2.5,0.5,-1,way='long'),robot.specify_arc(2.5,0.5,0.5,0.5,-1,way='long')] )
 ## 1 m circle starting at [-2,-2], using geometric constructor functions. 
 ## NOTE that a full circle is a degenerate case, so it has to be done in two halves: 
 #path_specs = np.array([robot.specify_arc(-2,-2,0,-2,-1,way='long'),robot.specify_arc(0,-2,-2,-2,-1,way='long')] )
@@ -92,6 +92,11 @@ start_M = np.array([0, 0])
 start_J = start_M + np.array([char_width + char_spacing, 0])
 start_W = start_J + np.array([char_width + char_spacing, char_height])
 
+import parse_svg_for_path_following as parsesvg    # This is a program that sorts out SVG files to find their waypoints. 
+path_file_svg = rospy.get_param('/path_file_svg')
+path_specs = parsesvg.convert_svg_to_path_specs(path_file_svg, xlength=1., ylength=1.)    
+
+"""
 path_specs = np.array([
     # M
     robot.specify_line(start_M[0], start_M[1], start_M[0], start_M[1]+char_height),
@@ -112,8 +117,8 @@ path_specs = np.array([
     robot.specify_line(start_W[0], start_W[1]-char_height, start_W[0]+char_width/2, start_W[1]-char_height+char_width/2),
     robot.specify_line(start_W[0]+char_width/2, start_W[1]-char_height+char_width/2, start_W[0]+char_width, start_W[1]-char_height),
     robot.specify_line(start_W[0]+char_width, start_W[1]-char_height, start_W[0]+char_width, start_W[1]),
-])
-
+]) 
+"""
 ###############################################################################
 ## ALTERNATIVELY: get path specs from an SVG file: 
 #   uses "parse_svg_for_path_following", a program that reads SVG images and converts the lines to waypoints. 

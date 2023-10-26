@@ -31,8 +31,8 @@
  <!-- Edit the "robot_control" group to launch the "closed_loop_path_follower.py", "waypoint_seeker.py" and "set_waypoints.py" nodes. --> 
   <group ns="robot_control">
     <node pkg="mobrob" name="closed_loop_path_follower" type="closed_loop_path_follower.py"/>    
-    <node />
-    <node />
+    <node pkg="mobrob" name="waypoint_seeker" type="waypoint_seeker_HWK.py"/>    
+    <node pkg="mobrob" name="set_waypoints" type="set_waypoitns_HWK.py"/>    
   </group>
   
   

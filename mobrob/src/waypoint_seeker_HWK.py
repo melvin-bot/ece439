@@ -52,7 +52,7 @@ def talker():
     sub_robot_pose_estimated = rospy.Subscriber('/robot_pose_estimated', Pose2D, set_path_to_waypoint)
 
     # Subscriber to the "waypoint_xy" topic
-    sub_waypoint = rospy.Subscriber('/waypoint_xy', ME439WaypointXY, queue_size=10)
+    sub_waypoint = rospy.Subscriber('/waypoint_xy', ME439WaypointXY, set_waypoint)
 ####    CODE END  
 
     # Prevent the node from exiting

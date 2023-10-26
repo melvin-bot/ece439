@@ -31,7 +31,7 @@ pos_right_p: 100.
 pos_right_i: 10.
 pos_right_d: 1.
 speed_of_sound_meterspersec: 343.0
-Vmax: 0.2
+Vmax: 0.3
 Beta: 2.  
 gamma: 1.  
 angle_focus_factor: 2.0

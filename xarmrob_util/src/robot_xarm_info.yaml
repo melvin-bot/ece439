@@ -4,7 +4,7 @@ command_frequency: 10
 # Speed for controlled movement
 endpoint_speed: 0.05
 # Height offset (for safety: do dry runs in the air: suggest 0.02 m up)
-vertical_offset: 0.2
+vertical_offset: 0.03
 # Sign of positive rotations w.r.t. the +y axis
 y_rotation_sign: 1 # Could otherwise be -1 if using 'positive rotations about the -y axis'
 # Indices and ID numbers of the Hiwonder Bus Servos, from base to tip

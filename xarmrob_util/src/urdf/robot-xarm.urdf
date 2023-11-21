@@ -39,7 +39,7 @@
     <axis xyz=" 0 0 1"/>
     <parent link="base_link"/>
     <origin rpy="0 0 0" xyz="0 0 0.010"/>
-    <limit effort="1000.0" lower="-2.6" upper="2.6" velocity=".5"/>
+    <limit effort="1000.0" lower="-2.09" upper="2.09" velocity=".5"/>
     <child link="trunk"/>
   </joint>
 
@@ -57,7 +57,7 @@
     <axis xyz="0 1 0"/>
     <parent link="trunk"/>
     <origin rpy="0 0 0" xyz="0.010 0 0.064"/>
-    <limit effort="1000.0" lower="-3.14" upper="0" velocity=".5"/>
+    <limit effort="1000.0" lower="-2.96" upper="-0.18" velocity=".5"/>
     <child link="upper_arm"/>
   </joint>
 
@@ -93,7 +93,7 @@
     <axis xyz="1 0 0"/>
     <parent link="forearm_z"/>
     <origin rpy="0 0 0" xyz="0 0 0.0379"/>
-    <limit effort="1000.0" lower="-1.95" upper="1.95" velocity=".5"/>
+    <limit effort="1000.0" lower="-1.91" upper="1.91" velocity=".5"/>
     <child link="forearm_x"/>
   </joint>
 
@@ -111,7 +111,7 @@
     <axis xyz="0 1 0"/>
     <parent link="forearm_x"/>
     <origin rpy="0 0 0" xyz="0.0305 0 0"/>
-    <limit effort="1000.0" lower="-1.75" upper="1.75" velocity=".5"/>
+    <limit effort="1000.0" lower="-1.57" upper="1.57" velocity=".5"/>
     <child link="hand"/>
   </joint>
 
@@ -129,7 +129,7 @@
     <axis xyz="1 0 0"/>
     <parent link="hand"/>
     <origin rpy="0 0 0" xyz="0.0315 0 0"/>
-    <limit effort="1000.0" lower="-1.95" upper="1.95" velocity=".5"/>
+    <limit effort="1000.0" lower="-1.91" upper="1.91" velocity=".5"/>
     <child link="gripper_base"/>
   </joint>
 
@@ -147,7 +147,7 @@
     <axis xyz="0 0 1"/>
     <parent link="gripper_base"/>
     <origin rpy="0 0 0" xyz="0 0 0"/>
-    <limit effort="1000.0" lower="0" upper="1.58" velocity=".5"/>
+    <limit effort="1000.0" lower="0" upper="1.57" velocity=".5"/>
     <child link="gripper_temp"/>
   </joint>
 

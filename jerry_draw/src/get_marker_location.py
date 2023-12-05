@@ -133,4 +133,4 @@ if __name__ == "__main__":
     rospy.wait_for_service('get_aruco_marker_positon')
     get_aruco_marker_positon = rospy.ServiceProxy('get_aruco_marker_positon', get_aruco_marker_positon)
     marker_position = get_aruco_marker_positon(target_id=42, num_samples=10)
-    print("Found marker:\n" + marker_position)
+    print("Found marker:\n" + str(marker_position))

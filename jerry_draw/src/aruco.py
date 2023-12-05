@@ -15,7 +15,7 @@ camera.set(cv2.CAP_PROP_FRAME_WIDTH,1280);
 camera.set(cv2.CAP_PROP_FRAME_HEIGHT,960);
 
 # What is the size of each marker - length of a side in meters (or any other unit you are working with). Used in call to "estimatePoseSingleMarkers". 
-marker_side_length = 0.061 # meters 
+marker_side_length = 0.0508 # meters 
 
 #comment this out to remove live display (and some other stuff below)
 plt.figure()
@@ -28,7 +28,7 @@ rospy.init_node('aruco_node', anonymous=False)
 pub_aruco = rospy.Publisher('/aruco', String, queue_size=10)
 
 #Tell opencv which aruco tags we're using (this should match the generation script)
-aruco_dict = aruco.Dictionary_get(aruco.DICT_6X6_250)
+aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)
 parameters = aruco.DetectorParameters_create()
 
 #Loop until a key gets pressed on the video

@@ -46,7 +46,7 @@ def scan_for_marker(req):
     
     # User has seen a preview, capture num_samples images containing our target marker
     marker_positions_with_target_id = []
-    while len(marker_positions_with_target_id < num_samples):
+    while len(marker_positions_with_target_id) < num_samples:
         # Capture a frame of video and list all calculated marker positions
         visible_marker_positions = capture_frame(camera, preview=False)
 

@@ -69,7 +69,7 @@ def scan_for_marker(req):
     return average_marker_pos
 
 
-def capture_frame(camera: cv2.VideoCapture, preview: bool = True, preview_target_id: int = None) -> list[aruco_marker_position]:
+def capture_frame(camera, preview = True, preview_target_id = None):
     # Read a frame from the camera
     _, frame = camera.read()
 

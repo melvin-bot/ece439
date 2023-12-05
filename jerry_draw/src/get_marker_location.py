@@ -108,11 +108,12 @@ def capture_frame(camera, preview = True, preview_target_id = None):
 
         # If a target ID is provided, tell the user whether or not it was detected in the current frame
         if preview_target_id is not None:
-            if len(corners) > 0 and preview_target_id in [id for id in detected_markers]:
-                disp_msg = "ID" + str(preview_target_id) + "detected"
+            if len(detected_markers) > 0 and preview_target_id in [id for id in detected_markers]:
+                disp_msg = "ID " + str(preview_target_id) + " detected"
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (128, 255, 64), 4)
             else:
-                disp_msg = "ID" + str(preview_target_id) + "not detected"
+                print([id for id in detected_markers], preview_target_id, detected_markers)
+                disp_msg = "ID " + str(preview_target_id) + " not detected"
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 64, 64), 4)
         
     # Show the marked-up image

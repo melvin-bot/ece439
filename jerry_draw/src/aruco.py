@@ -11,8 +11,8 @@ from std_msgs.msg import String
 
 #Setup camera capture and resolution
 camera = cv2.VideoCapture(0)
-camera.set(cv2.CAP_PROP_FRAME_WIDTH,1280);
-camera.set(cv2.CAP_PROP_FRAME_HEIGHT,960);
+camera.set(cv2.CAP_PROP_FRAME_WIDTH,1280)
+camera.set(cv2.CAP_PROP_FRAME_HEIGHT,960)
 
 # What is the size of each marker - length of a side in meters (or any other unit you are working with). Used in call to "estimatePoseSingleMarkers". 
 marker_side_length = 0.0508 # meters 

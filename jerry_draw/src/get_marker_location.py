@@ -108,11 +108,11 @@ def capture_frame(camera, preview = True, preview_target_id = None):
 
         # If a target ID is provided, tell the user whether or not it was detected in the current frame
         if preview_target_id is not None:
-            if len(detected_markers) > 0 and preview_target_id in [id for id in detected_markers]:
+            if len(detected_markers) > 0 and preview_target_id in [marker.id for marker in detected_markers]:
                 disp_msg = "ID " + str(preview_target_id) + " detected"
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (128, 255, 64), 4)
             else:
-                print([id for id in detected_markers], preview_target_id, detected_markers)
+                print([marker.id for marker in detected_markers], preview_target_id, detected_markers)
                 disp_msg = "ID " + str(preview_target_id) + " not detected"
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 64, 64), 4)
         
@@ -134,4 +134,4 @@ if __name__ == "__main__":
     rospy.wait_for_service('get_aruco_marker_positon')
     get_aruco_marker_positon = rospy.ServiceProxy('get_aruco_marker_positon', get_aruco_marker_positon)
     marker_position = get_aruco_marker_positon(target_id=42, num_samples=10)
-    print("Found marker" + str(marker_position.id) + "at position" + str(marker_position.pos_x) + str(marker_position.pos_y) + str(marker_position.pos_z) + str(marker_position.rot_x) + str(marker_position.rot_y) + str(marker_position.rot_z))
+    print("Found marker:" + marker_position, sep='\n')

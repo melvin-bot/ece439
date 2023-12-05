@@ -1,5 +1,6 @@
 # The ArUco marker ID to look for
 uint32 target_id
+uint32 num_samples
 
 ---
 # Response

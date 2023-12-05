@@ -1,0 +1,4 @@
+camera_in_world: [-8.5, 0., 29.5]
+camera_pitch: 0.122173 # in radians
+aruco_marker_size: 0.0508 # in meters
+aruco_marker_id: 42

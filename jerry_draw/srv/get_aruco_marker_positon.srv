@@ -3,4 +3,4 @@ uint32 target_id
 
 ---
 # Response
-aruco_marker_postion marker_position
+aruco_marker_position marker_position

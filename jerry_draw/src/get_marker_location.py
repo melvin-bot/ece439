@@ -110,11 +110,10 @@ def capture_frame(camera, preview = True, preview_target_id = None):
         if preview_target_id is not None:
             if len(detected_markers) > 0 and preview_target_id in [marker.id for marker in detected_markers]:
                 disp_msg = "ID " + str(preview_target_id) + " detected"
-                frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (128, 255, 64), 4)
+                frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (64, 255, 128), 4)
             else:
-                print([marker.id for marker in detected_markers], preview_target_id, detected_markers)
                 disp_msg = "ID " + str(preview_target_id) + " not detected"
-                frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 64, 64), 4)
+                frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (64, 64, 255), 4)
         
     # Show the marked-up image
     if preview:
@@ -134,4 +133,4 @@ if __name__ == "__main__":
     rospy.wait_for_service('get_aruco_marker_positon')
     get_aruco_marker_positon = rospy.ServiceProxy('get_aruco_marker_positon', get_aruco_marker_positon)
     marker_position = get_aruco_marker_positon(target_id=42, num_samples=10)
-    print("Found marker:" + marker_position, sep='\n')
+    print("Found marker:\n" + marker_position)

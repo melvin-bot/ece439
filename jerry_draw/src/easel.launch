@@ -1,0 +1,4 @@
+<launch>
+    <rosparam command="load" file="$(find xarmrob_util)/src/robot_xarm_info.yaml" />
+    <rosparam command="load" file="$(find jerry_draw)/src/jerry_info.yaml" />
+</launch>

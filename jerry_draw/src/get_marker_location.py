@@ -4,15 +4,16 @@ import cv2
 from cv2 import aruco
 import pickle
 import rospy
+from initial_translations import aruco_marker_world_pos
 from jerry_draw.msg import aruco_marker_position
 from jerry_draw.srv import get_aruco_marker_positon
 
 
 # Aruco marker parameters: get these from a YAML file!
-aruco_marker_size = 0.0508
-aruco_marker_id = 42
-# aruco_marker_size = rospy.get_param("/aruco_marker_size")
-# aruco_marker_id = rospy.get_param("/aruco_marker_id")
+aruco_marker_size = rospy.get_param("/aruco_marker_size")
+aruco_marker_id = rospy.get_param("/aruco_marker_id")
+camera_angle = rospy.get_param("/camera_pitch")
+camera_in_world = rospy.get_param("/camera_in_world")
 
 # Load camera calibration info
 cam_matrix = pickle.load(open("cam_matrix.p","rb"),encoding='bytes')
@@ -108,10 +109,16 @@ def capture_frame(camera, preview = True, preview_target_id = None):
         if len(corners) > 0:
             frame = aruco.drawDetectedMarkers(frame, corners, ids)
 
+        cur_marker = []
+        for marker in detected_markers:
+            if marker.id == aruco_marker_id:
+                cur_marker = marker
+                break
+
         # If a target ID is provided, tell the user whether or not it was detected in the current frame
         if preview_target_id is not None:
             if len(detected_markers) > 0 and preview_target_id in [marker.id for marker in detected_markers]:
-                disp_msg = "ID " + str(preview_target_id) + " detected"
+                disp_msg = "ID " + str(preview_target_id) + " detected" + aruco_marker_world_pos(cur_marker, camera_angle, camera_in_world)
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (64, 255, 128), 4)
             else:
                 disp_msg = "ID " + str(preview_target_id) + " not detected"

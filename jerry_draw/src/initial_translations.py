@@ -7,7 +7,7 @@ from jerry_draw.msg import aruco_marker_position
 def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
 
     # The camera coordinates of the tag are weird; use the standard x-forward notation we've used previously
-    pos_tag = np.array([[marker_pos_camera.z], [-marker_pos_camera.x], [-marker_pos_camera.y], [1]])
+    pos_tag = np.array([[marker_pos_camera.pos_z], [-marker_pos_camera.pos_x], [-marker_pos_camera.pos_y], [1]])
 
     # Translate from camera-space to world-space with a transform matrix
     camera_position = camera_position.reshape((-1))
@@ -25,9 +25,9 @@ def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
 
 if __name__ == '__main__':
     test_aruco_position = aruco_marker_position()
-    test_aruco_position.x = -0.05
-    test_aruco_position.y = 0.0
-    test_aruco_position.z = 0.46
+    test_aruco_position.pos_x = -0.05
+    test_aruco_position.pos_y = 0.0
+    test_aruco_position.pos_z = 0.46
 
     test_camera_angle = np.deg2rad(7)
     test_camera_position = np.array([-0.085, 0, 0.295])

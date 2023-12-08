@@ -1,8 +1,13 @@
-camera_in_world: [-0.085, 0, 0.295]
-camera_pitch: 0.122173 # in radians
+# Camera parameters
+camera_in_world: [-0.085, 0, 0.295] # (x, y, z) position of the camera center in world coordinates, relative to Jerry's origin
+camera_pitch: 0.122173 # camera pitch, in radians; down is positive
+
+# AruCo marker parameters
 aruco_marker_size: 0.0508 # in meters
 aruco_marker_id: 42
-x_offset: 0.0675
-y_offset: 0.1025
-canvas_area_height: 0.24
-canvas_area_width: 0.18
+
+# Canvas parameters
+canvas_height: 0.24 # in meters
+canvas_width: 0.18 # in meters
+canvas_center_x: 0.0675 # in meters
+canvas_center_y: 0.1025 # in meters

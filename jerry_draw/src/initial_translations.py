@@ -36,6 +36,19 @@ def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
 
 
 def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_position):
+    """Construct a transformation matrix from world to easel coordinates. In the transformed coordinate space, +x is
+    to the right, +y is up, and +z is out of the page of the easel; the origin is the AruCo tag.
+
+    Args:
+        marker_pos_camera (aruco_marker_position): The position of the AruCo marker, in camera coordinates
+        camera_angle (float): The downward pitch of the camera, in radians
+        camera_position (np.array | np.ndarray): A row or column vector containing the (x, y, z) position of the camera
+        in world coordinates
+
+    Returns:
+        np.ndarray: A 4x4 homogenous transform matrix
+    """
+
     # Get the position of the AruCo tag, in world coordinates
     marker_pos_world = aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position)
 

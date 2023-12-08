@@ -1,10 +1,12 @@
 import numpy as np
+import rospy
 from jerry_draw.msg import aruco_marker_position
 
 # Get this from the YAML!
 camera_angle = np.deg2rad(7)
+# camera_angle = rospy.get_param("/camera_pitch")
 
-def aruco_marker_world_pos(camera_pos: aruco_marker_position):
+def aruco_marker_world_pos(camera_pos: aruco_marker_position, camera_angle: float):
 
     C_rotate_x_pitch = np.array([[1, 0, 0, camera_pos.x],
                         [0, np.cos(camera_angle), -np.sin(camera_angle), camera_pos.y],

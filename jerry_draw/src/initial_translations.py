@@ -20,9 +20,11 @@ def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
 
     # The camera coordinates of the tag are weird; use the standard x-forward notation we've used previously
     pos_tag = np.array([[marker_pos_camera.pos_z], [-marker_pos_camera.pos_x], [-marker_pos_camera.pos_y], [1]])
+    
+    # Make camera_position into a numpy array, if needed
+    camera_position = np.array(camera_position).reshape((-1))
 
     # Translate from camera-space to world-space with a transform matrix
-    camera_position = camera_position.reshape((-1))
     transform_camera_world = np.array(
         [[np.cos(camera_angle),   0,  np.sin(camera_angle),  camera_position[0]],
          [0,                      1,  0,                     camera_position[1]],

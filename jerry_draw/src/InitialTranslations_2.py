@@ -32,7 +32,7 @@ def aruco_marker_world_pos(camera_pos: aruco_marker_position):
 
 
 if __name__ == '__main__':
-    test_aruco_position = aruco_marker_position
+    test_aruco_position = aruco_marker_position()
     test_aruco_position.x = 0.2
     test_aruco_position.y = 0.3
     test_aruco_position.z = 0.9

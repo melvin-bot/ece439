@@ -120,7 +120,7 @@ def capture_frame(camera, preview = True, preview_target_id = None):
         # If a target ID is provided, tell the user whether or not it was detected in the current frame
         if preview_target_id is not None:
             if len(detected_markers) > 0 and preview_target_id in [marker.id for marker in detected_markers]:
-                disp_msg = "ID " + str(preview_target_id) + " detected " + aruco_marker_world_pos(cur_marker, camera_angle, camera_in_world)
+                disp_msg = "ID " + str(preview_target_id) + " detected " + str(aruco_marker_world_pos(cur_marker, camera_angle, camera_in_world))
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (64, 255, 128), 4)
             else:
                 disp_msg = "ID " + str(preview_target_id) + " not detected"

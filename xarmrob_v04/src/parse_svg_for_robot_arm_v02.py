@@ -4,7 +4,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 # Default file to read
-svg_file = 'RobotArmPath.svg'
+svg_file = '/Users/Will/Desktop/Melvin/ece439/xarmrob_v04/src/smiley.svg'
 
 # Rectangular workspace    
 # how much space do you have for the robot to move in (meters)? Measure its arena!
@@ -162,6 +162,7 @@ def save_coords_to_csv(svgfile, csv_coords):
 
 if __name__=='__main__':
     svg_coords = parse_svg_for_paths(svg_file)
+    print(type(svg_coords))
     scaled_coords = scale_coords_to_arena(svg_coords, dx_arena, dy_arena, rmin_default)
     save_coords_to_csv(svg_file, scaled_coords)
 

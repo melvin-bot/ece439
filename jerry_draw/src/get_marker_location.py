@@ -16,8 +16,10 @@ camera_angle = rospy.get_param("/camera_pitch")
 camera_in_world = rospy.get_param("/camera_in_world")
 
 # Load camera calibration info
-cam_matrix = pickle.load(open("cam_matrix.p","rb"),encoding='bytes')
-dist_matrix = pickle.load(open("dist_matrix.p","rb"),encoding='bytes')
+while not (rospy.has_param('/cam_matrix') and rospy.has_param('/dist_matrix')):
+    pass
+cam_matrix = pickle.load(open(rospy.get_param("/cam_matrix"),"rb"),encoding='bytes')
+dist_matrix = pickle.load(open(rospy.get_param("/dist_matrix"),"rb"),encoding='bytes')
 
 # Tell OpenCV which ArUco tags we're using
 aruco_dict = aruco.Dictionary_get(aruco.DICT_4X4_50)

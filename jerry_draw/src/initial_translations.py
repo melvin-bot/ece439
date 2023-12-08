@@ -5,6 +5,17 @@ from jerry_draw.msg import aruco_marker_position
 # camera_angle = rospy.get_param("/camera_pitch")
 
 def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
+    """Finds the position of an AruCo marker in world coordinates based on its posiiton in camera coordinates
+
+    Args:
+        marker_pos_camera (aruco_marker_position): The position of the AruCo marker, in camera coordinates
+        camera_angle (float): The downward pitch of the camera, in radians
+        camera_position (np.array | np.ndarray): A row or column vector containing the (x, y, z) position of the camera
+        in world coordinates
+
+    Returns:
+        np.array: A 3-unit vector containing the (x, y, z) posiiton of the AruCo marker, in world coordinates
+    """    
 
     # The camera coordinates of the tag are weird; use the standard x-forward notation we've used previously
     pos_tag = np.array([[marker_pos_camera.pos_z], [-marker_pos_camera.pos_x], [-marker_pos_camera.pos_y], [1]])

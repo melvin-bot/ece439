@@ -11,6 +11,8 @@ from jerry_draw.srv import get_aruco_marker_positon
 # Aruco marker parameters: get these from a YAML file!
 aruco_marker_size = 0.0508
 aruco_marker_id = 42
+# aruco_marker_size = rospy.get_param("/aruco_marker_size")
+# aruco_marker_id = rospy.get_param("/aruco_marker_id")
 
 # Load camera calibration info
 cam_matrix = pickle.load(open("cam_matrix.p","rb"),encoding='bytes')

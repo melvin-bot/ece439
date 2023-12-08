@@ -1,6 +1,7 @@
 import numpy as np
 # import rospy
 from jerry_draw.msg import aruco_marker_position
+from cv2 import Rodrigues
 
 # camera_angle = rospy.get_param("/camera_pitch")
 
@@ -32,6 +33,22 @@ def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
 
     # Pull out the x, y, z components of pos_world and return them
     return pos_world[:3, 0]
+
+
+def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_position):
+    # Get the position of the AruCo tag, in world coordinates
+    marker_pos_world = aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position)
+
+    # The orientation of the AruCo tag is given by its Rodrigues vector
+    rodrigues_vector = np.array([marker_pos_camera.rot_x, marker_pos_camera.rot_y, marker_pos_camera.rot_z])
+    rotation_rodrigues, _ = Rodrigues(rodrigues_vector)
+    # The Rodrigues rotation gives x to the right, y up, and z out of the page
+
+    # Using the Rodrigues rotation matrix and world position vector, we can construct a combined homogenous transform
+    transform = np.concatenate(rotation_rodrigues, marker_pos_world.reshape((-1, 1)), axis=1)
+    transform = np.concatenate(transform, np.array([0, 0, 0, 1]), axis=0)
+
+    return transform
 
 
 if __name__ == '__main__':

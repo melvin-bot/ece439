@@ -7,7 +7,7 @@ aruco_marker_size: 0.0508 # in meters
 aruco_marker_id: 42
 
 # Canvas parameters
-canvas_height: 0.24 # in meters
-canvas_width: 0.18 # in meters
-canvas_center_x: 0.0675 # in meters
-canvas_center_y: 0.1025 # in meters
+canvas_size_x: 0.1651 # in meters
+canvas_size_y: 0.2286 # in meters
+canvas_center_x: 0.06985 # in meters
+canvas_center_y: -0.1016 # in meters

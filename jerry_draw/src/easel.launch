@@ -1,4 +1,6 @@
 <launch>
     <rosparam command="load" file="$(find xarmrob_util)/src/robot_xarm_info.yaml" />
     <rosparam command="load" file="$(find jerry_draw)/src/jerry_info.yaml" />
+
+    <node pkg="jerry_draw" name="get_marker_location" type="get_marker_location.py"/>
 </launch>

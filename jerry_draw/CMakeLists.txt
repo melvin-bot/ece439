@@ -56,7 +56,7 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  get_aruco_marker_positon.srv
+  get_aruco_marker_position.srv
 )
 
 ## Generate actions in the 'action' folder

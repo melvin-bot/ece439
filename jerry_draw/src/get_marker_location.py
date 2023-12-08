@@ -6,7 +6,7 @@ import pickle
 import rospy
 from initial_translations import aruco_marker_world_pos
 from jerry_draw.msg import aruco_marker_position
-from jerry_draw.srv import get_aruco_marker_positon
+from jerry_draw.srv import get_aruco_marker_position
 
 
 # Aruco marker parameters: get these from a YAML file!
@@ -136,12 +136,12 @@ def capture_frame(camera, preview = True, preview_target_id = None):
 
 # Set up ROS service
 rospy.init_node('aruco_scanner', anonymous=False)
-service = rospy.Service('get_aruco_marker_positon', get_aruco_marker_positon, scan_for_marker)
+service = rospy.Service('get_aruco_marker_position', get_aruco_marker_position, scan_for_marker)
 
 
 # If this program is run directly, give an example
 if __name__ == "__main__":
-    rospy.wait_for_service('get_aruco_marker_positon')
-    get_aruco_marker_positon = rospy.ServiceProxy('get_aruco_marker_positon', get_aruco_marker_positon)
-    marker_position = get_aruco_marker_positon(target_id=42, num_samples=25)
+    rospy.wait_for_service('get_aruco_marker_position')
+    get_aruco_marker_position = rospy.ServiceProxy('get_aruco_marker_position', get_aruco_marker_position)
+    marker_position = get_aruco_marker_position(target_id=42, num_samples=25)
     print("Found marker:\n" + str(marker_position))

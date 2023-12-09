@@ -15,7 +15,9 @@ canvas_center_y: -0.1016 # meters
 # Movement parameters
 max_speed_draw: 0.1 # meters/s
 max_speed_move: 0.3 # meters/s
-pen_liftoff_distance: 0.02 # meters
+pen_liftoff_distance: 0.02 # How far the pen should move away from the easel surface when travelling, in meters
+pen_draw_distance: -0.002 # How far the pen should target being away from the easel surface when drawing, in meters
+# Note: when pen_draw_distance is negative, then pen will be pressed into the surface of the easel
 
 # Position of the pen tip, relative to the "wrist"
 endpoint_offset_in_frame_6: [0.210, 0., -0.025]  # meters

@@ -165,25 +165,23 @@ def scale_coords_to_arena(coords,
                           canvas_center_y=canvas_center_y):
     x_svg = coords[:,0]
     y_svg = coords[:,1]  # Note that Y is Down in SVG!
-    z_designed = coords[:,2]
-    speed_designated = coords[:,3]
+    z_svg = coords[:,2]
+    speed_svg = coords[:,3]
     
     x_min_svg = np.min(x_svg)
     x_max_svg = np.max(x_svg)
     x_range_svg = x_max_svg - x_min_svg
-    x_center_svg = x_min_svg + x_range_svg/2
+    x_center_svg = x_min_svg + x_range_svg / 2
     y_min_svg = np.min(y_svg)
     y_max_svg = np.max(y_svg)
     y_range_svg = y_max_svg - y_min_svg
-    y_center_svg = y_min_svg + y_range_svg/2
+    y_center_svg = y_min_svg + y_range_svg / 2
  
     # Shift and scale. Also Rearrange Coordinates
     svg_scaling_factor = min([canvas_size_x/x_range_svg, canvas_size_y/y_range_svg])
-    xscaled = -1*(y_svg - y_center_svg) * svg_scaling_factor + canvas_center_x
-    yscaled = -1*(x_svg - x_center_svg) * svg_scaling_factor + canvas_center_y   # Note that Y is Down in SVG!
-    zscaled = z_designed
-    speed_scaled = speed_designated
-    scaled_coords = np.vstack((xscaled, yscaled, zscaled, speed_scaled)).T
+    x_scaled = (x_center_svg - x_svg) * svg_scaling_factor + canvas_center_x
+    y_scaled = (y_center_svg - y_svg) * svg_scaling_factor + canvas_center_y   # Note that Y is Down in SVG!
+    scaled_coords = np.vstack((x_scaled, y_scaled, z_svg, speed_svg)).T
     
     return scaled_coords
         
@@ -202,3 +200,4 @@ if __name__=='__main__':
     plt.axis('equal')
     plt.xlabel('x')
     plt.ylabel('y')
+    plt.show()

@@ -1,8 +1,14 @@
 import numpy as np
 import rospy
+from sensor_msgs.msg import JointState
+from xarmrob_util.msg import ME439WaypointXYZ
 
+
+# Dummy target
 target = np.array([0.36,-0.28, 0.28])
 
+
+# Kinematics parameters
 l1 = rospy.get_param("/frame_offset_23")[0]
 l3 = rospy.get_param("/frame_offset_23")[0]
 l4 = rospy.get_param("/frame_offset_34")[0]
@@ -10,12 +16,16 @@ l5 = rospy.get_param("/frame_offset_34")[2]
 x1 = rospy.get_param("/frame_offset_12")[0]
 z1 = rospy.get_param("/frame_offset_01")[2]
 
-d2 = np.sqrt(l4**2 + l5**2)
-
 dx_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[0]
 dz_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[2]
 
+gripper_hold_angle = rospy.get_param("/gripper_hold_angle")
+
+
+# Constant parameters for inverse kinematics
+d2 = np.sqrt(l4**2 + l5**2)
 l2 = np.sqrt(-dz_gripper**2 + (dx_gripper + d2 + l3)**2)
+
 
 def pen_inverse_kinematics(target):
     target_x = target[0]
@@ -47,4 +57,41 @@ def pen_inverse_kinematics(target):
 
     beta2 = beta2_prime - beta2_err
 
-    return([alpha, beta1, beta2, beta3])
+    return(alpha, beta1, beta2, beta3)
+
+
+# JointState object to be re-used with each call to compute_inverse_kinematics
+joint_state_msg = JointState()
+
+# Publisher for target joint states
+pub_joint_state = rospy.Publisher('/joint_angles_desired', JointState, queue_size=1)
+
+
+def compute_inverse_kinematics(msg_in):
+    global joint_state_msg
+
+    # Get the target position
+    target_xyz = msg_in.xyz
+
+    # Compute joint angles for that position
+    alpha, beta1, beta2, beta3 = pen_inverse_kinematics(target_xyz)
+
+    # Construct a set of joint angles
+    joint_state_msg[0] = alpha               # Base yaw
+    joint_state_msg[1] = beta1               # Shoulder pitch
+    joint_state_msg[2] = beta2               # Elbow pitch
+    joint_state_msg[3] = 0.0                 # Elbow twist
+    joint_state_msg[4] = beta3               # Wrist pitch
+    joint_state_msg[5] = 0.0                 # Writst twist
+    joint_state_msg[6] = gripper_hold_angle  # Gripper
+
+    # Publish them so they can get executed
+    pub_joint_state.publish(joint_state_msg)
+
+
+# Subscriber for target endpoint position
+sub_target_xyz = rospy.Subscriber('/target_xyz', ME439WaypointXYZ, compute_inverse_kinematics)
+
+
+# Create a node for inverse kinematics to live in
+rospy.init_node('/inverse_kinematics', anonymous=False)

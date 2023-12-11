@@ -23,3 +23,6 @@ pen_draw_distance: -0.002 # How far the pen should target being away from the ea
 
 # Position of the pen tip, relative to the "wrist"
 endpoint_offset_in_frame_6: [0.210, 0., -0.025]  # meters
+
+# The angle to send to the gripper servo in order to hold the pen
+gripper_hold_angle: 1.1 # radians

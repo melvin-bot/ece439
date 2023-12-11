@@ -1,21 +1,21 @@
 <launch>
     <!-- Include utilities from xarm -->
-    <include file="$(find xarmrob)/src/robot_automatic_nogui.launch"/>
+    <include file="$(find xarmrob)/src/robot_automatic_nogui.launch" />
 
     <!-- This is the target SVG to draw -->
     <arg name="target_svg" default="smiley.svg">
-    <param name="target_svg" value="$(find jerry_draw)/src/$(arg target_svg)"/>
+    <param name="target_svg" value="$(find jerry_draw)/src/$(arg target_svg)" />
 
     <!-- Load parameters for robot_xarm and jerry_draw -->
-    <rosparam command="load" file="$(find xarmrob_util)/src/robot_xarm_info.yaml"/>
-    <rosparam command="load" file="$(find jerry_draw)/src/jerry_info.yaml"/>
+    <rosparam command="load" file="$(find xarmrob_util)/src/robot_xarm_info.yaml" />
+    <rosparam command="load" file="$(find jerry_draw)/src/jerry_info.yaml" />
 
     <!-- Grab the camera projection matrixes -->
-    <param name="cam_matrix" value="$(find jerry_draw)/src/cam_matrix.p"/>
-    <param name="dist_matrix" value="$(find jerry_draw)/src/dist_matrix.p"/>
+    <param name="cam_matrix" value="$(find jerry_draw)/src/cam_matrix.p" />
+    <param name="dist_matrix" value="$(find jerry_draw)/src/dist_matrix.p" />
 
     <!-- Launch nodes -->
-    <node name="get_marker_location" pkg="jerry_draw" type="get_marker_location.py"/>
-    <node name="inverse_kinematics" pkg="jerry_draw" type="inverse_kinematics.py"/>
+    <node name="get_marker_location" pkg="jerry_draw" type="get_marker_location.py" />
+    <node name="inverse_kinematics" pkg="jerry_draw" type="inverse_kinematics.py" />
     <node name="draw_svg" pkg="jerry_draw" type="draw.py" args="--svg" />
 </launch>

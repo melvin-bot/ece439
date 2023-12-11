@@ -19,7 +19,8 @@ frame_offset_34: [0.0627, 0., 0.0758]
 frame_offset_45: [0., 0., 0.]
 frame_offset_56: [0., 0., 0.]    # Define the Frame 6 ('fingers') origin to coincide with the 3-4 and 4-5 axes ("spherical wrist").
 # Location of the end effector centerpoint relative to the wrist center
-endpoint_offset_in_frame_6: [0.133, 0., -0.003]  # forward from 'wrist' to center of gripper (when Gripper is OPEN)
+  # This is overwritten by jerry_info, and it removed here to avoid contention
+  # endpoint_offset_in_frame_6: [0.133, 0., -0.003]  # forward from 'wrist' to center of gripper (when Gripper is OPEN)
 # Rotational Axis limits (degrees)
 rotational_limits_joint_01: [-120,120]
 rotational_limits_joint_12: [-170,-10]

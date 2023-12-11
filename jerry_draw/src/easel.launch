@@ -11,5 +11,8 @@
     <param name="cam_matrix" value="$(find jerry_draw)/src/cam_matrix.p"/>
     <param name="dist_matrix" value="$(find jerry_draw)/src/dist_matrix.p"/>
 
-    <node pkg="jerry_draw" name="get_marker_location" type="get_marker_location.py"/>
+    <!-- Launch nodes -->
+    <node name="get_marker_location" pkg="jerry_draw" type="get_marker_location.py"/>
+    <node name="inverse_kinematics" pkg="jerry_draw" type="inverse_kinematics.py"/>
+    <node name="draw_svg" pkg="jerry_draw" type="draw.py" args="--svg" />
 </launch>

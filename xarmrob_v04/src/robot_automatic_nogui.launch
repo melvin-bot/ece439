@@ -16,7 +16,8 @@
   
   <node pkg="xarmrob" name="forward_kinematics" type="forward_kinematics.py"/>
 
-  <node pkg="xarmrob" name="inverse_kinematics" type="inverse_kinematics.py"/>
+  <!-- This is superceded by IK specific to jerry-draw -->
+  <!-- <node pkg="xarmrob" name="inverse_kinematics" type="inverse_kinematics.py"/> -->
   <node pkg="xarmrob" name="smooth_waypoint_seeker" type="smooth_waypoint_seeker.py"/>
   <node pkg="xarmrob" name="set_waypoints_from_svg" type="set_waypoints_from_svg.py"/>
 

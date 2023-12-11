@@ -5,16 +5,6 @@ from matplotlib import pyplot as plt
     # import rospy
 
     # # Get movement parameters from parameter server
-    # while not (rospy.has_param('/pen_liftoff_distance') and
-    #            rospy.has_param('/pen_draw_distance') and
-    #            rospy.has_param('/max_speed_move') and
-    #            rospy.has_param('/max_speed_draw') and
-    #            rospy.has_param('/canvas_size_x') and
-    #            rospy.has_param('/canvas_size_y') and
-    #            rospy.has_param('/canvas_center_x') and
-    #            rospy.has_param('/canvas_center_y')):
-    #     pass
-
     # pen_liftoff_distance = rospy.get_param("/pen_liftoff_distance")
     # pen_draw_distance = rospy.get_param("/pen_draw_distance")
     # max_speed_move = rospy.get_param("/max_speed_move")

@@ -7,6 +7,7 @@ from parse_svg_for_drawing import convert_svg_to_waypoints
 from easel_transform import aruco_marker_world_transform, apply_transform
 from interpolate_waypoints import interpolate_waypoints
 from xarmrob_util.msg import ME439WaypointXYZ
+from jerry_draw.srv import get_aruco_marker_position
 
 
 max_speed_move = rospy.get_param("/max_speed_move")

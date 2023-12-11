@@ -7,6 +7,7 @@ camera_pitch: 0.122173 # camera pitch, in radians; down is positive
 # AruCo marker parameters
 aruco_marker_size: 0.0508 # meters
 aruco_marker_id: 42
+aruco_marker_averaging_samples: 25
 
 ################################################################################
 # Canvas parameters

@@ -3,7 +3,7 @@
   <include file="$(find xarmrob)/src/robot_automatic_nogui.launch" />
 
   <!-- This is the target SVG to draw -->
-  <arg name="target_svg" default="smiley.svg">
+  <arg name="target_svg" default="smiley.svg" />
   <param name="target_svg" value="$(find jerry_draw)/src/$(arg target_svg)" />
 
   <!-- Load parameters for robot_xarm and jerry_draw -->

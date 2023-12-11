@@ -2,30 +2,30 @@
 
 import numpy as np
 from matplotlib import pyplot as plt
-    # import rospy
+import rospy
 
-    # # Get movement parameters from parameter server
-    # pen_liftoff_distance = rospy.get_param("/pen_liftoff_distance")
-    # pen_draw_distance = rospy.get_param("/pen_draw_distance")
-    # max_speed_move = rospy.get_param("/max_speed_move")
-    # max_speed_draw = rospy.get_param("/max_speed_draw")
-    # max_accel_move = rospy.get_param("/max_accel_move")
-    # max_accel_draw = rospy.get_param("/max_accel_draw")
-    # canvas_size_x = rospy.get_param("/canvas_size_x")
-    # canvas_size_y = rospy.get_param("/canvas_size_y")
-    # canvas_center_x = rospy.get_param("/canvas_center_x")
-    # canvas_center_y = rospy.get_param("/canvas_center_y")
+# Get movement parameters from parameter server
+pen_liftoff_distance = rospy.get_param("/pen_liftoff_distance")
+pen_draw_distance = rospy.get_param("/pen_draw_distance")
+max_speed_move = rospy.get_param("/max_speed_move")
+max_speed_draw = rospy.get_param("/max_speed_draw")
+max_accel_move = rospy.get_param("/max_accel_move")
+max_accel_draw = rospy.get_param("/max_accel_draw")
+canvas_size_x = rospy.get_param("/canvas_size_x")
+canvas_size_y = rospy.get_param("/canvas_size_y")
+canvas_center_x = rospy.get_param("/canvas_center_x")
+canvas_center_y = rospy.get_param("/canvas_center_y")
 
-pen_liftoff_distance = 0.02
-pen_draw_distance = -0.002
-max_speed_move = 0.3
-max_speed_draw = 0.1
-max_accel_move = 1.0
-max_accel_draw = 0.3
-canvas_size_x = 0.1651
-canvas_size_y = 0.2286
-canvas_center_x = 0.06985
-canvas_center_y = -0.1016
+# pen_liftoff_distance = 0.02
+# pen_draw_distance = -0.002
+# max_speed_move = 0.3
+# max_speed_draw = 0.1
+# max_accel_move = 1.0
+# max_accel_draw = 0.3
+# canvas_size_x = 0.1651
+# canvas_size_y = 0.2286
+# canvas_center_x = 0.06985
+# canvas_center_y = -0.1016
 
 # All-inclusive function to get waypoints from an SVG file.    
 def convert_svg_to_waypoints(svg_file,

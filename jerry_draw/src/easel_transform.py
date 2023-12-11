@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
+
 import numpy as np
-# import rospy
 from jerry_draw.msg import aruco_marker_position
 from cv2 import Rodrigues
 
@@ -69,7 +70,7 @@ def apply_transform(waypoints, transform):
     transformed_waypoints = np.empty_like(waypoints)
 
     for i_waypoint in waypoints.shape[0]:
-        
+
         # Get the target waypoint
         target_waypoint = waypoints[i_waypoint, :]
 

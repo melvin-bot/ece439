@@ -1,4 +1,5 @@
 #! /usr/bin/python3
+
 import numpy as np
 from xarmrob_util.msg import ME439WaypointXYZ
 

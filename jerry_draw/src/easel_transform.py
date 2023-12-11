@@ -3,8 +3,6 @@ import numpy as np
 from jerry_draw.msg import aruco_marker_position
 from cv2 import Rodrigues
 
-# camera_angle = rospy.get_param("/camera_pitch")
-
 def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
     """Finds the position of an AruCo marker in world coordinates based on its posiiton in camera coordinates
 
@@ -64,6 +62,25 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
     transform = np.concatenate(transform, np.array([0, 0, 0, 1]), axis=0)
 
     return transform
+
+
+def apply_transform(waypoints, transform):
+    # New set of waypoints which have been transformed into easel space
+    transformed_waypoints = np.empty_like(waypoints)
+
+    for i_waypoint in waypoints.shape[0]:
+        
+        # Get the target waypoint
+        target_waypoint = waypoints[i_waypoint, :]
+
+        # Apply the transform to the waypoint's x/y/z coordinates
+        waypoint_vector = np.array((target_waypoint[0], target_waypoint[1], target_waypoint[2], 1)).reshape((-1, 1))
+        transformed_waypoint = (transform @ waypoint_vector).reshape((-1))[:3]
+
+        # Add the transformed vector to the set of transformed waypoints
+        transformed_waypoints[i_waypoint, :] = np.concatenate(transformed_waypoint, target_waypoint[3:], axis=0)
+    
+    return transformed_waypoints
 
 
 if __name__ == '__main__':

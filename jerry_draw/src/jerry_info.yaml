@@ -1,28 +1,43 @@
+################################################################################
 # Camera parameters
 camera_in_world: [-0.085, 0, 0.295] # (x, y, z) position of the camera center in world coordinates, in meters
 camera_pitch: 0.122173 # camera pitch, in radians; down is positive
 
+################################################################################
 # AruCo marker parameters
 aruco_marker_size: 0.0508 # meters
 aruco_marker_id: 42
 
+################################################################################
 # Canvas parameters
 canvas_size_x: 0.1651 # meters
 canvas_size_y: 0.2286 # meters
 canvas_center_x: 0.06985 # meters
 canvas_center_y: -0.1016 # meters
 
+################################################################################
 # Movement parameters
 max_speed_draw: 0.1 # meters/s
 max_speed_move: 0.3 # meters/s
 max_accel_draw: 0.3 # meters/s/s
 max_accel_move: 1.0 # meters/s/s
-pen_liftoff_distance: 0.02 # How far the pen should move away from the easel surface when travelling, in meters
-pen_draw_distance: -0.002 # How far the pen should target being away from the easel surface when drawing, in meters
-# Note: when pen_draw_distance is negative, then pen will be pressed into the surface of the easel
 
+# How far the pen should move away from the easel surface when travelling
+pen_liftoff_distance: 0.02 # meters
+
+# How far the pen should target being away from the easel surface when drawing
+# Note: when pen_draw_distance is negative, then pen will be pressed into the surface of the easel
+pen_draw_distance: -0.002 # meters
+
+################################################################################
 # Position of the pen tip, relative to the "wrist"
 endpoint_offset_in_frame_6: [0.210, 0., -0.025]  # meters
 
+################################################################################
 # The angle to send to the gripper servo in order to hold the pen
 gripper_hold_angle: 1.1 # radians
+
+
+################################################################################
+# The resting position of the robot arm when it isn't drawing
+default_position_xyz: [0.1, -0.1, 0.1]

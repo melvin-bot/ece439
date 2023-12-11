@@ -9,6 +9,8 @@ from matplotlib import pyplot as plt
     # pen_draw_distance = rospy.get_param("/pen_draw_distance")
     # max_speed_move = rospy.get_param("/max_speed_move")
     # max_speed_draw = rospy.get_param("/max_speed_draw")
+    # max_accel_move = rospy.get_param("/max_accel_move")
+    # max_accel_draw = rospy.get_param("/max_accel_draw")
     # canvas_size_x = rospy.get_param("/canvas_size_x")
     # canvas_size_y = rospy.get_param("/canvas_size_y")
     # canvas_center_x = rospy.get_param("/canvas_center_x")
@@ -18,6 +20,8 @@ pen_liftoff_distance = 0.02
 pen_draw_distance = -0.002
 max_speed_move = 0.3
 max_speed_draw = 0.1
+max_accel_move = 1.0
+max_accel_draw = 0.3
 canvas_size_x = 0.1651
 canvas_size_y = 0.2286
 canvas_center_x = 0.06985
@@ -31,9 +35,11 @@ def convert_svg_to_waypoints(svg_file,
                              canvas_center_y=canvas_center_y,
                              speed_move=max_speed_move,
                              speed_draw=max_speed_draw,
+                             accel_move=max_accel_move,
+                             accel_draw=max_accel_draw,
                              pen_liftoff_distance=pen_liftoff_distance,
                              pen_draw_distance=pen_draw_distance):
-    svg_coords = parse_svg_for_paths(svg_file, speed_move, speed_draw, pen_liftoff_distance, pen_draw_distance)
+    svg_coords = parse_svg_for_paths(svg_file, speed_move, speed_draw, accel_move, accel_draw, pen_liftoff_distance, pen_draw_distance)
     scaled_coords = scale_coords_to_arena(svg_coords, canvas_size_x, canvas_size_y, canvas_center_x, canvas_center_y)
     
     return scaled_coords
@@ -42,6 +48,8 @@ def convert_svg_to_waypoints(svg_file,
 def parse_svg_for_paths(svg_file,
                         speed_move=max_speed_move,
                         speed_draw=max_speed_draw,
+                        accel_move=max_accel_move,
+                        accel_draw=max_accel_draw,
                         pen_liftoff_distance=pen_liftoff_distance,
                         pen_draw_distance=pen_draw_distance):
     # Find lines with 'd="' at the beginning: 
@@ -58,8 +66,8 @@ def parse_svg_for_paths(svg_file,
                 ignore = 0
             
     # parse such lines to separate out anything delimited by space
-    svg_coords = np.ndarray((0,4)).astype(float)
-    d_line_origin = np.array([[0.,0.,pen_draw_distance,speed_draw]])
+    svg_coords = np.ndarray((0,5)).astype(float)
+    d_line_origin = np.array([[0.,0.,pen_draw_distance,speed_draw,accel_draw]])
     current_point = np.array([[0.,0.,0.,0.]])
     #first_absolute = 1 
     for d_line in d_lines:
@@ -123,17 +131,17 @@ def parse_svg_for_paths(svg_file,
                 if first_absolute:
                     # Retract, then move, then set down at new point
                     if len(svg_coords) > 0:
-                        svg_coords = np.append(svg_coords, [[current_point[0],current_point[1],pen_liftoff_distance,speed_draw]],axis=0)
-                    svg_coords = np.append(svg_coords, [[xy[0],xy[1],pen_liftoff_distance,speed_move]],axis=0)                
-                    svg_coords = np.append(svg_coords, [[xy[0],xy[1],pen_draw_distance,speed_draw]],axis=0)
+                        svg_coords = np.append(svg_coords, [[current_point[0],current_point[1],pen_liftoff_distance,speed_draw,accel_draw]],axis=0)
+                    svg_coords = np.append(svg_coords, [[xy[0],xy[1],pen_liftoff_distance,speed_move,accel_move]],axis=0)                
+                    svg_coords = np.append(svg_coords, [[xy[0],xy[1],pen_draw_distance,speed_draw,accel_draw]],axis=0)
                     # set first_absolute to zero (not anymore). 
                     first_absolute = 0
-                    d_line_origin = np.array([[xy[0],xy[1],pen_draw_distance,speed_draw]])
+                    d_line_origin = np.array([[xy[0],xy[1],pen_draw_distance,speed_draw,accel_draw]])
                 else:
                     if absolute:
-                        svg_coords = np.append(svg_coords, [[xy[0],xy[1],pen_draw_distance,speed_draw]],axis=0)
+                        svg_coords = np.append(svg_coords, [[xy[0],xy[1],pen_draw_distance,speed_draw,accel_draw]],axis=0)
                     else:
-                        svg_coords = np.append(svg_coords, [current_point + np.array([xy[0],xy[1],0.,0.])],axis=0)
+                        svg_coords = np.append(svg_coords, [current_point + np.array([xy[0],xy[1],0.,0.,0.])],axis=0)
                 
                 current_point = svg_coords[-1]
                 
@@ -143,7 +151,7 @@ def parse_svg_for_paths(svg_file,
                 
                 ii += incr
     
-    svg_coords = np.append(svg_coords, np.array([[current_point[0],current_point[1],pen_liftoff_distance,speed_draw]]), axis=0)
+    svg_coords = np.append(svg_coords, np.array([[current_point[0],current_point[1],pen_liftoff_distance,speed_draw,accel_draw]]), axis=0)
                 
     return svg_coords
 
@@ -157,6 +165,7 @@ def scale_coords_to_arena(coords,
     y_svg = coords[:,1]  # Note that Y is Down in SVG!
     z_svg = coords[:,2]
     speed_svg = coords[:,3]
+    accel_svg = coords[:,4]
     
     x_min_svg = np.min(x_svg)
     x_max_svg = np.max(x_svg)
@@ -171,7 +180,7 @@ def scale_coords_to_arena(coords,
     svg_scaling_factor = min([canvas_size_x/x_range_svg, canvas_size_y/y_range_svg])
     x_scaled = (x_center_svg - x_svg) * svg_scaling_factor + canvas_center_x
     y_scaled = (y_center_svg - y_svg) * svg_scaling_factor + canvas_center_y   # Note that Y is Down in SVG!
-    scaled_coords = np.vstack((x_scaled, y_scaled, z_svg, speed_svg)).T
+    scaled_coords = np.vstack((x_scaled, y_scaled, z_svg, speed_svg, accel_svg)).T
     
     return scaled_coords
         

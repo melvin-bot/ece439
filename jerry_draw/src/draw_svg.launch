@@ -1,6 +1,27 @@
 <launch>
   <!-- Include utilities from xarm -->
-  <include file="$(find xarmrob)/src/robot_automatic_nogui.launch" />
+  <rosparam command="load" file="$(find xarmrob_util)/src/robot_xarm_info.yaml" />
+
+  <arg name="model" default="$(find xarmrob_util)/src/urdf/robot-xarm.urdf" />
+  <arg name="gui" default="false" />
+  <arg name="rvizconfig" default="$(find xarmrob_util)/src/urdf/urdf.rviz" />
+
+  <param name="robot_description" command="xacro --inorder $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <!-- RVIZ preview -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  <group if="$(arg var)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
+    <node name="draw_pen_rviz" pkg="xarmrob" type="draw_pen_rviz.py" />
+  </group>
+  
+  <node pkg="xarmrob" name="forward_kinematics" type="forward_kinematics.py" />
+
+  <!-- Utility node to convert angles to microsecond commands and send them to the arm. -->
+  <node pkg="xarmrob" name="command_xarm" type="command_xarm.py" />
+
+
 
   <!-- This is the target SVG to draw -->
   <arg name="target_svg" default="smiley.svg" />

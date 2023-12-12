@@ -51,6 +51,7 @@ def follow_waypoints(waypoints):
 
 
 def main():
+    print("Started main draw method")
     global pub_target_xyz
 
     # Figure out if we are drawing an SVG or a raster image
@@ -89,4 +90,5 @@ def main():
 rospy.init_node('drawer', anonymous=False)
 
 # Start up main method automatically once a node is created
-main()
+if __name__ == '__main__':
+    main()

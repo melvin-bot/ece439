@@ -59,8 +59,8 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
     # The Rodrigues rotation gives x to the right, y up, and z out of the page
 
     # Using the Rodrigues rotation matrix and world position vector, we can construct a combined homogenous transform
-    transform = np.concatenate(rotation_rodrigues, marker_pos_world.reshape((-1, 1)), axis=1)
-    transform = np.concatenate(transform, np.array([0, 0, 0, 1]), axis=0)
+    transform = np.concatenate((rotation_rodrigues, marker_pos_world.reshape((-1, 1))), axis=1)
+    transform = np.concatenate(transform, np.array([[0, 0, 0, 1]]), axis=0)
 
     return transform
 

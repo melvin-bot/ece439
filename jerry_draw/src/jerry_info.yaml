@@ -36,7 +36,7 @@ endpoint_offset_in_frame_6: [0.210, 0., -0.025]  # meters
 
 ################################################################################
 # The angle to send to the gripper servo in order to hold the pen
-gripper_hold_angle: 1.1 # radians
+gripper_hold_angle: 0.05 # radians
 
 
 ################################################################################

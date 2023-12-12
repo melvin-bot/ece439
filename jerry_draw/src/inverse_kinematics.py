@@ -63,14 +63,15 @@ def pen_inverse_kinematics(target):
 
 
 # JointState object to be re-used with each call to compute_inverse_kinematics
-joint_state_msg = JointState()
+joint_angles_desired_msg = JointState()
+joint_angles_desired_msg.name = ['base_joint', 'shoulder_joint', 'elbow_joint', 'forearm_joint', 'wrist_joint', 'fingers_joint', 'gripper']
 
 # Publisher for target joint states
 pub_joint_state = rospy.Publisher('/joint_angles_desired', JointState, queue_size=1)
 
 
 def compute_inverse_kinematics(msg_in):
-    global joint_state_msg
+    global joint_angles_desired_msg
 
     # Get the target position
     target_xyz = msg_in.xyz
@@ -79,16 +80,16 @@ def compute_inverse_kinematics(msg_in):
     alpha, beta1, beta2, beta3 = pen_inverse_kinematics(target_xyz)
 
     # Construct a set of joint angles
-    joint_state_msg[0] = alpha               # Base yaw
-    joint_state_msg[1] = beta1               # Shoulder pitch
-    joint_state_msg[2] = beta2               # Elbow pitch
-    joint_state_msg[3] = 0.0                 # Elbow twist
-    joint_state_msg[4] = beta3               # Wrist pitch
-    joint_state_msg[5] = 0.0                 # Writst twist
-    joint_state_msg[6] = gripper_hold_angle  # Gripper
+    joint_angles_desired_msg.position[0] = alpha               # Base yaw
+    joint_angles_desired_msg.position[1] = beta1               # Shoulder pitch
+    joint_angles_desired_msg.position[2] = beta2               # Elbow pitch
+    joint_angles_desired_msg.position[3] = 0.0                 # Elbow twist
+    joint_angles_desired_msg.position[4] = beta3               # Wrist pitch
+    joint_angles_desired_msg.position[5] = 0.0                 # Writst twist
+    joint_angles_desired_msg.position[6] = gripper_hold_angle  # Gripper
 
     # Publish them so they can get executed
-    pub_joint_state.publish(joint_state_msg)
+    pub_joint_state.publish(joint_angles_desired_msg)
 
 
 # Subscriber for target endpoint position

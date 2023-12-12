@@ -69,7 +69,7 @@ def apply_transform(waypoints, transform):
     # New set of waypoints which have been transformed into easel space
     transformed_waypoints = np.empty_like(waypoints)
 
-    for i_waypoint in waypoints.shape[0]:
+    for i_waypoint in range(waypoints.shape[0]):
 
         # Get the target waypoint
         target_waypoint = waypoints[i_waypoint, :]

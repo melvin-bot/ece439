@@ -76,7 +76,7 @@ def scan_for_marker(req):
 def capture_frame(camera, preview = True, preview_target_id = None):
     # Read a frame from the camera
     frame = None
-    while not frame:
+    while frame is None:
         _, frame = camera.read()
 
     # Convert it to grayscale

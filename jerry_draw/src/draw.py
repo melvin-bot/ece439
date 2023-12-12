@@ -80,7 +80,7 @@ def main():
     waypoints = apply_transform(waypoints, easel_transform)
 
     # Add one last waypoint for Jerry to return to his default position when he finishes drawing
-    waypoints = np.concatenate(waypoints, np.concatenate(np.array(default_position_xyz).reshape((1, -1)), [[max_speed_move, max_accel_move]], axis=1), axis=0)
+    waypoints = np.concatenate((waypoints, np.concatenate((np.array(default_position_xyz).reshape((1, -1)), [[max_speed_move, max_accel_move]]), axis=1)), axis=0)
     
     # Follow the listed waypoints smoothly
     follow_waypoints(waypoints)

@@ -71,7 +71,7 @@ def main():
     # Using the camera, figure out where the AruCo marker is
     rospy.wait_for_service('get_aruco_marker_position')
     get_marker_position = rospy.ServiceProxy('get_aruco_marker_position', get_aruco_marker_position)
-    marker_position = get_marker_position(target_id=aruco_marker_id, num_samples=aruco_marker_averaging_samples)
+    marker_position = get_marker_position(target_id=aruco_marker_id, num_samples=aruco_marker_averaging_samples).marker_position
 
     # Construct a transformation matrix to go from world-space to easel-space based on the marker's position
     easel_transform = aruco_marker_world_transform(marker_position, camera_pitch, camera_pos_world)

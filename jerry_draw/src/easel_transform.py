@@ -18,7 +18,7 @@ def aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position):
     """    
 
     # The camera coordinates of the tag are weird; use the standard x-forward notation we've used previously
-    pos_tag = np.array([[marker_pos_camera.marker_position.pos_z], [-marker_pos_camera.marker_position.pos_x], [-marker_pos_camera.marker_position.pos_y], [1]])
+    pos_tag = np.array([[marker_pos_camera.pos_z], [-marker_pos_camera.pos_x], [-marker_pos_camera.pos_y], [1]])
     
     # Make camera_position into a numpy array, if needed
     camera_position = np.array(camera_position).reshape((-1))
@@ -54,7 +54,7 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
     marker_pos_world = aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position)
 
     # The orientation of the AruCo tag is given by its Rodrigues vector
-    rodrigues_vector = np.array([marker_pos_camera.marker_position.rot_x, marker_pos_camera.marker_position.rot_y, marker_pos_camera.marker_position.rot_z])
+    rodrigues_vector = np.array([marker_pos_camera.rot_x, marker_pos_camera.rot_y, marker_pos_camera.rot_z])
     rotation_rodrigues, _ = Rodrigues(rodrigues_vector)
     # The Rodrigues rotation gives x to the right, y up, and z out of the page
 

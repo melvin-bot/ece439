@@ -87,7 +87,7 @@ def main():
 
 
 # I'm a node!
-rospy.init_node('drawer', anonymous=False)
+rospy.init_node('artist', anonymous=False)
 
 # Start up main method automatically once a node is created
 if __name__ == '__main__':

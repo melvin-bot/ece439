@@ -22,7 +22,7 @@ command_frequency = rospy.get_param("/command_frequency")
 
 
 # Publisher for target endpoint locations
-pub_target_xyz = rospy.Publisher('/joint_angles_desired', ME439WaypointXYZ, queue_size=1)
+pub_target_xyz = rospy.Publisher('/target_xyz', ME439WaypointXYZ, queue_size=1)
 
 
 def parse_drawing_method():

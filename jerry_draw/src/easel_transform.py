@@ -79,7 +79,7 @@ def apply_transform(waypoints, transform):
         transformed_waypoint = (transform @ waypoint_vector).reshape((-1))[:3]
 
         # Add the transformed vector to the set of transformed waypoints
-        transformed_waypoints[i_waypoint, :] = np.concatenate(transformed_waypoint, target_waypoint[3:], axis=0)
+        transformed_waypoints[i_waypoint, :] = np.concatenate((transformed_waypoint, target_waypoint[3:]), axis=0)
     
     return transformed_waypoints
 

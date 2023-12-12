@@ -26,7 +26,7 @@ gripper_hold_angle = rospy.get_param("/gripper_hold_angle")
 
 # Constant parameters for inverse kinematics
 d2 = np.sqrt(l4**2 + l5**2)
-l2 = np.sqrt(-dz_gripper**2 + (dx_gripper + d2 + l3)**2)
+l2 = np.sqrt(dz_gripper**2 + (dx_gripper + d2 + l3)**2)
 
 
 def pen_inverse_kinematics(target):

@@ -34,7 +34,7 @@ def pen_inverse_kinematics(target):
     target_y = target[1]
     target_z = target[2]
 
-    alpha = np.arctan2(target_y / target_x)
+    alpha = np.arctan2(target_y, target_x)
 
     # find beta 2 prime
     delta_r = np.sqrt(target_x**2 + target_y**2) - x1
@@ -46,13 +46,13 @@ def pen_inverse_kinematics(target):
     beta2_prime = np.pi - delta
 
     # find beta 1
-    psi = np.arctan2(delta_z/delta_r)
+    psi = np.arctan2(delta_z, delta_r)
     phi = np.arccos((l1**2 + d**2 - l2**2) / 2 * l1 * d)
 
     beta1 = psi + phi
 
     # find beta 3
-    beta3 = (np.pi / 2) - np.arctan2(l5/l4)
+    beta3 = (np.pi / 2) - np.arctan2(l5, l4)
 
     # find beta2 error
     beta2_err = np.arctan2(-dz_gripper / (dx_gripper + d2 + l3))

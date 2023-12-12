@@ -96,4 +96,6 @@ sub_target_xyz = rospy.Subscriber('/target_xyz', ME439WaypointXYZ, compute_inver
 
 
 # Create a node for inverse kinematics to live in
-rospy.init_node('inverse_kinematics', anonymous=False)
+if __name__ == '__main__':
+    rospy.init_node('inverse_kinematics', anonymous=False)
+    rospy.spin()

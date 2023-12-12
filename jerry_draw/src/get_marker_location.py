@@ -136,8 +136,10 @@ def capture_frame(camera, preview = True, preview_target_id = None):
 
 
 # Set up ROS service
-rospy.init_node('aruco_scanner', anonymous=False)
-service = rospy.Service('get_aruco_marker_position', get_aruco_marker_position, scan_for_marker)
+if __name__ == '__main__':
+    rospy.init_node('aruco_scanner', anonymous=False)
+    service = rospy.Service('get_aruco_marker_position', get_aruco_marker_position, scan_for_marker)
+    rospy.spin()
 
 
 # If this program is run directly, give an example

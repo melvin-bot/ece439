@@ -49,7 +49,7 @@ def pen_inverse_kinematics(target):
     psi = np.arctan2(delta_z, delta_r)
     phi = np.arccos((l1**2 + d**2 - l2**2) / 2 * l1 * d)
 
-    beta1 = psi + phi
+    beta1 = -1 * (psi + phi)
 
     # find beta 3
     beta3 = (np.pi / 2) - np.arctan2(l5, l4)

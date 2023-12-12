@@ -41,4 +41,4 @@ gripper_hold_angle: 1.1 # radians
 
 ################################################################################
 # The resting position of the robot arm when it isn't drawing
-default_position_xyz: [0.1, -0.1, 0.1]
+default_position_xyz: [0.1, -0.3, 0.1]

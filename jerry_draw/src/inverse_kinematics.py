@@ -13,8 +13,8 @@ target = np.array([0.36,-0.28, 0.28])
 # Kinematics parameters
 l1 = rospy.get_param("/frame_offset_23")[0]
 l3 = 0
-l4 = rospy.get_param("/frame_offset_34")[0]
-l5 = rospy.get_param("/frame_offset_34")[2]
+l4 = rospy.get_param("/frame_offset_34")[2]
+l5 = rospy.get_param("/frame_offset_34")[0]
 x1 = rospy.get_param("/frame_offset_12")[0]
 z1 = rospy.get_param("/frame_offset_01")[2]
 

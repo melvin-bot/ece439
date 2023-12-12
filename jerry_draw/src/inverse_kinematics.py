@@ -55,7 +55,7 @@ def pen_inverse_kinematics(target):
     beta3 = (np.pi / 2) - np.arctan2(l5, l4)
 
     # find beta2 error
-    beta2_err = np.arctan2(-dz_gripper / (dx_gripper + d2 + l3))
+    beta2_err = np.arctan2(-dz_gripper, (dx_gripper + d2 + l3))
 
     beta2 = beta2_prime - beta2_err
 

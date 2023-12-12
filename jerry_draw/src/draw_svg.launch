@@ -11,7 +11,7 @@
 
   <!-- RVIZ preview -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-  <group if="$(arg var)">
+  <group if="$(arg gui)">
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
     <node name="draw_pen_rviz" pkg="xarmrob" type="draw_pen_rviz.py" />
   </group>

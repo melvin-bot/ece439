@@ -80,13 +80,16 @@ def compute_inverse_kinematics(msg_in):
     alpha, beta1, beta2, beta3 = pen_inverse_kinematics(target_xyz)
 
     # Construct a set of joint angles
-    joint_angles_desired_msg.position[0] = alpha               # Base yaw
-    joint_angles_desired_msg.position[1] = beta1               # Shoulder pitch
-    joint_angles_desired_msg.position[2] = beta2               # Elbow pitch
-    joint_angles_desired_msg.position[3] = 0.0                 # Elbow twist
-    joint_angles_desired_msg.position[4] = beta3               # Wrist pitch
-    joint_angles_desired_msg.position[5] = 0.0                 # Writst twist
-    joint_angles_desired_msg.position[6] = gripper_hold_angle  # Gripper
+    angles = []
+    angles.append(alpha)               # Base yaw
+    angles.append(beta1)               # Shoulder pitch
+    angles.append(beta2)               # Elbow pitch
+    angles.append(0.0)                 # Elbow twist
+    angles.append(beta3)               # Wrist pitch
+    angles.append(0.0)                 # Writst twist
+    angles.append(gripper_hold_angle)  # Gripper
+    joint_angles_desired_msg.position = angles
+
 
     # Publish them so they can get executed
     pub_joint_state.publish(joint_angles_desired_msg)

@@ -6,21 +6,24 @@ from sensor_msgs.msg import JointState
 from xarmrob_util.msg import ME439WaypointXYZ
 
 
-# Dummy target
-target = np.array([0.36,-0.28, 0.28])
-
-
 # Kinematics parameters
 l1 = rospy.get_param("/frame_offset_23")[0]
 l4 = rospy.get_param("/frame_offset_34")[2]
 l5 = rospy.get_param("/frame_offset_34")[0]
 delta_r_origin = rospy.get_param("/frame_offset_12")[0]
 delta_z_origin = rospy.get_param("/frame_offset_01")[2]
-
 delta_x_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[0]
 delta_z_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[2]
-
 gripper_hold_angle = rospy.get_param("/gripper_hold_angle")
+
+# l1 = 0.1005
+# l4 = 0.0758
+# l5 = 0.0627
+# delta_r_origin = 0.010
+# delta_z_origin = 0.074
+# delta_x_gripper = 0.210
+# delta_z_gripper = -0.025
+# gripper_hold_angle = 0.05
 
 
 # Constant parameters for inverse kinematics

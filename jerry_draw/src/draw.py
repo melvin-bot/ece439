@@ -9,6 +9,7 @@ from interpolate_waypoints import interpolate_waypoints
 from xarmrob_util.msg import ME439WaypointXYZ
 from jerry_draw.msg import aruco_marker_position
 from jerry_draw.srv import get_aruco_marker_position
+# from matplotlib import pyplot as plt
 
 
 max_speed_move = rospy.get_param("/max_speed_move")
@@ -20,6 +21,16 @@ aruco_marker_averaging_samples = rospy.get_param("/aruco_marker_averaging_sample
 camera_pos_world = rospy.get_param("/camera_in_world")
 camera_pitch = rospy.get_param("/camera_pitch")
 command_frequency = rospy.get_param("/command_frequency")
+
+# max_speed_move = 0.3
+# max_accel_move = 1.0
+# default_position_xyz = [0.1, -0.3, 0.1]
+# target_svg = "/Users/Will/Desktop/Melvin/ece439/jerry_draw/src/smiley.svg"
+# aruco_marker_id = 42
+# aruco_marker_averaging_samples = 25
+# camera_pos_world = [-0.085, 0, 0.295]
+# camera_pitch = 0.122173
+# command_frequency = 10
 
 
 # Publisher for target endpoint locations
@@ -48,6 +59,8 @@ def follow_waypoints(waypoints):
         for target_position in interpolate_waypoints(waypoints, command_frequency, default_position_xyz):
             pub_target_xyz.publish(target_position)
             rate.sleep()
+    
+    # return np.stack([target_position for target_position in interpolate_waypoints(waypoints, command_frequency, default_position_xyz)], axis=0)
 
 
 def main():
@@ -84,6 +97,16 @@ def main():
     
     # Follow the listed waypoints smoothly
     follow_waypoints(waypoints)
+    
+    # target_waypoints = follow_waypoints(waypoints)
+    # fig = plt.figure()
+    # ax = fig.add_subplot(projection='3d')
+    # ax.scatter(xs=target_waypoints[:,0], ys=target_waypoints[:,1], zs=target_waypoints[:,2])
+    # ax.set_aspect('equal')
+    # ax.set_xlabel('x')
+    # ax.set_ylabel('y')
+    # ax.set_zlabel('z')
+    # plt.show()
 
 
 # I'm a node!

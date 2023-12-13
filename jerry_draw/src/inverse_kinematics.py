@@ -39,7 +39,7 @@ def pen_inverse_kinematics(target):
 
     ####################
     # beta_wrist
-    beta_wrist = np.arctan2(l4, l5)
+    beta_wrist = - np.arctan2(l4, l5)
 
     ####################
     # beta_2

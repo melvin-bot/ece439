@@ -12,21 +12,20 @@ target = np.array([0.36,-0.28, 0.28])
 
 # Kinematics parameters
 l1 = rospy.get_param("/frame_offset_23")[0]
-l3 = 0
 l4 = rospy.get_param("/frame_offset_34")[2]
 l5 = rospy.get_param("/frame_offset_34")[0]
-x1 = rospy.get_param("/frame_offset_12")[0]
-z1 = rospy.get_param("/frame_offset_01")[2]
+delta_r_origin = rospy.get_param("/frame_offset_12")[0]
+delta_z_origin = rospy.get_param("/frame_offset_01")[2]
 
-dx_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[0]
-dz_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[2]
+delta_x_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[0]
+delta_z_gripper = rospy.get_param("/endpoint_offset_in_frame_6")[2]
 
 gripper_hold_angle = rospy.get_param("/gripper_hold_angle")
 
 
 # Constant parameters for inverse kinematics
-d2 = np.sqrt(l4**2 + l5**2)
-l2 = np.sqrt(dz_gripper**2 + (dx_gripper + d2 + l3)**2)
+D2 = np.linalg.norm([l4, l5])
+l2 = np.linalg.norm([delta_z_gripper, (delta_x_gripper + D2)])
 
 
 def pen_inverse_kinematics(target):
@@ -34,32 +33,37 @@ def pen_inverse_kinematics(target):
     target_y = target[1]
     target_z = target[2]
 
-    alpha = np.arctan2(target_y, target_x)
+    ####################
+    # alpha_1
+    alpha_1 = np.arctan2(target_y, target_x)
 
-    # find beta 2 prime
-    delta_r = np.sqrt(target_x**2 + target_y**2) - x1
-    delta_z = target_z - z1
+    ####################
+    # beta_wrist
+    beta_wrist = np.arctan2(l4, l5)
 
-    d = np.sqrt(delta_r**2 + delta_z**2)
+    ####################
+    # beta_2
+    delta_r_endpoint = np.linalg.norm([target_x, target_y]) - delta_r_origin
+    delta_z_endpoint = target_z - delta_z_origin
+    D = np.linalg.norm([delta_r_endpoint, delta_z_endpoint])
 
-    delta = np.arccos((l1**2 + l2**2 - d**2) / (2 * l1 * l2))
-    beta2_prime = np.pi - delta
+    psi = np.arctan2(delta_z_endpoint, delta_r_endpoint)
+    phi = np.arccos((l1**2 + D**2 - l2**2) / (2 * l1 * D))
 
-    # find beta 1
-    psi = np.arctan2(delta_z, delta_r)
-    phi = np.arccos((l1**2 + d**2 - l2**2) / 2 * l1 * d)
+    beta_2 = -1 * (psi + phi)
 
-    beta1 = -1 * (psi + phi)
+    ####################
+    # beta_3
+    angle_delta = np.arccos((l1**2 + l2**2 - D**2) / (2 * l1 * l2))
+    beta_3_prime = np.pi - angle_delta
 
-    # find beta 3
-    beta3 = (np.pi / 2) - np.arctan2(l5, l4)
+    l_error = l4 + np.cos(beta_wrist) * delta_z_gripper - np.sin(beta_wrist) * delta_x_gripper
+    beta_3_error = np.arccos(l_error / l2)
 
-    # find beta2 error
-    beta2_err = np.arctan2(-dz_gripper, (dx_gripper + d2 + l3))
+    beta_3 = beta_3_prime - beta_3_error
 
-    beta2 = beta2_prime - beta2_err
 
-    return(alpha, beta1, beta2, beta3)
+    return(alpha_1, beta_2, beta_3, beta_wrist)
 
 
 # JointState object to be re-used with each call to compute_inverse_kinematics
@@ -77,15 +81,15 @@ def compute_inverse_kinematics(msg_in):
     target_xyz = msg_in.xyz
 
     # Compute joint angles for that position
-    alpha, beta1, beta2, beta3 = pen_inverse_kinematics(target_xyz)
+    alpha_1, beta_2, beta_3, beta_wrist = pen_inverse_kinematics(target_xyz)
 
     # Construct a set of joint angles
     angles = []
-    angles.append(alpha)               # Base yaw
-    angles.append(beta1)               # Shoulder pitch
-    angles.append(beta2)               # Elbow pitch
+    angles.append(alpha_1)             # Base yaw
+    angles.append(beta_2)              # Shoulder pitch
+    angles.append(beta_3)              # Elbow pitch
     angles.append(0.0)                 # Elbow twist
-    angles.append(beta3)               # Wrist pitch
+    angles.append(beta_wrist)          # Wrist pitch
     angles.append(0.0)                 # Writst twist
     angles.append(gripper_hold_angle)  # Gripper
     joint_angles_desired_msg.position = angles
@@ -103,13 +107,12 @@ sub_target_xyz = rospy.Subscriber('/target_xyz', ME439WaypointXYZ, compute_inver
 if __name__ == '__main__':
     rospy.init_node('inverse_kinematics', anonymous=False)
     print("l1: " + str(l1))
-    print("l3: " + str(l3))
     print("l4: " + str(l4))
     print("l5: " + str(l5))
-    print("x1: " + str(x1))
-    print("z1: " + str(z1))
-    print("dx_gripper: " + str(dx_gripper))
-    print("dz_gripper: " + str(dz_gripper))
+    print("x1: " + str(delta_r_origin))
+    print("z1: " + str(delta_z_origin))
+    print("dx_gripper: " + str(delta_x_gripper))
+    print("dz_gripper: " + str(delta_z_gripper))
     print("gripper_hold_angle: " + str(gripper_hold_angle))
     print("d2: " + str(d2))
     print("l2: " + str(l2))

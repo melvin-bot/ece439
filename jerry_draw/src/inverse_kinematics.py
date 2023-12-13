@@ -114,6 +114,6 @@ if __name__ == '__main__':
     print("dx_gripper: " + str(delta_x_gripper))
     print("dz_gripper: " + str(delta_z_gripper))
     print("gripper_hold_angle: " + str(gripper_hold_angle))
-    print("d2: " + str(d2))
+    print("D2: " + str(D2))
     print("l2: " + str(l2))
     rospy.spin()

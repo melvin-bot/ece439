@@ -55,7 +55,7 @@ def pen_inverse_kinematics(target):
     ####################
     # beta_3
     angle_delta = np.arccos((l1**2 + l2**2 - D**2) / (2 * l1 * l2))
-    beta_3_prime = np.pi/2 - angle_delta
+    beta_3_prime = np.pi * 3/2 - angle_delta
 
     l_error = l4 + np.cos(beta_wrist) * delta_z_gripper - np.sin(beta_wrist) * delta_x_gripper
     beta_3_error = np.arccos(l_error / l2)

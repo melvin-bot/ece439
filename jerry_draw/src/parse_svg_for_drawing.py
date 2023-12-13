@@ -11,10 +11,10 @@ max_speed_move = rospy.get_param("/max_speed_move")
 max_speed_draw = rospy.get_param("/max_speed_draw")
 max_accel_move = rospy.get_param("/max_accel_move")
 max_accel_draw = rospy.get_param("/max_accel_draw")
-canvas_size_x = rospy.get_param("/canvas_size_x")
-canvas_size_y = rospy.get_param("/canvas_size_y")
-canvas_center_x = rospy.get_param("/canvas_center_x")
-canvas_center_y = rospy.get_param("/canvas_center_y")
+canvas_size_width = rospy.get_param("/canvas_size_width")
+canvas_size_height = rospy.get_param("/canvas_size_height")
+canvas_center_width = rospy.get_param("/canvas_center_width")
+canvas_center_height = rospy.get_param("/canvas_center_height")
 
 # pen_liftoff_distance = 0.02
 # pen_draw_distance = -0.002
@@ -22,17 +22,17 @@ canvas_center_y = rospy.get_param("/canvas_center_y")
 # max_speed_draw = 0.1
 # max_accel_move = 1.0
 # max_accel_draw = 0.3
-# canvas_size_x = 0.1651
-# canvas_size_y = 0.2286
-# canvas_center_x = 0.06985
-# canvas_center_y = -0.1016
+# canvas_size_width = 0.1651
+# canvas_size_height = 0.2286
+# canvas_center_width = 0.06985
+# canvas_center_height = -0.1016
 
 # All-inclusive function to get waypoints from an SVG file.    
 def convert_svg_to_waypoints(svg_file,
-                             canvas_size_x=canvas_size_x,
-                             canvas_size_y=canvas_size_y,
-                             canvas_center_x=canvas_center_x,
-                             canvas_center_y=canvas_center_y,
+                             canvas_size_width=canvas_size_width,
+                             canvas_size_height=canvas_size_height,
+                             canvas_center_width=canvas_center_width,
+                             canvas_center_height=canvas_center_height,
                              speed_move=max_speed_move,
                              speed_draw=max_speed_draw,
                              accel_move=max_accel_move,
@@ -40,7 +40,7 @@ def convert_svg_to_waypoints(svg_file,
                              pen_liftoff_distance=pen_liftoff_distance,
                              pen_draw_distance=pen_draw_distance):
     svg_coords = parse_svg_for_paths(svg_file, speed_move, speed_draw, accel_move, accel_draw, pen_liftoff_distance, pen_draw_distance)
-    scaled_coords = scale_coords_to_arena(svg_coords, canvas_size_x, canvas_size_y, canvas_center_x, canvas_center_y)
+    scaled_coords = scale_coords_to_canvas(svg_coords, canvas_size_width, canvas_size_height, canvas_center_width, canvas_center_height)
     
     return scaled_coords
 
@@ -156,16 +156,16 @@ def parse_svg_for_paths(svg_file,
     return svg_coords
 
 # Function to scale the coordinates from SVG to a specific size of workspace (rectangle, dimensions dx and dy)            
-def scale_coords_to_arena(coords,
-                          canvas_size_x=canvas_size_x,
-                          canvas_size_y=canvas_size_y,
-                          canvas_center_x=canvas_center_x,
-                          canvas_center_y=canvas_center_y):
+def scale_coords_to_canvas(coords,
+                          canvas_size_width=canvas_size_width,
+                          canvas_size_height=canvas_size_height,
+                          canvas_center_width=canvas_center_width,
+                          canvas_center_height=canvas_center_height):
     x_svg = coords[:,0]
     y_svg = coords[:,1]  # Note that Y is Down in SVG!
-    z_svg = coords[:,2]
-    speed_svg = coords[:,3]
-    accel_svg = coords[:,4]
+    z = coords[:,2]
+    speed = coords[:,3]
+    accel = coords[:,4]
     
     x_min_svg = np.min(x_svg)
     x_max_svg = np.max(x_svg)
@@ -176,11 +176,12 @@ def scale_coords_to_arena(coords,
     y_range_svg = y_max_svg - y_min_svg
     y_center_svg = y_min_svg + y_range_svg / 2
  
-    # Shift and scale. Also Rearrange Coordinates
-    svg_scaling_factor = min([canvas_size_x/x_range_svg, canvas_size_y/y_range_svg])
-    x_scaled = (x_center_svg - x_svg) * svg_scaling_factor + canvas_center_x
-    y_scaled = (y_center_svg - y_svg) * svg_scaling_factor + canvas_center_y   # Note that Y is Down in SVG!
-    scaled_coords = np.vstack((x_scaled, y_scaled, z_svg, speed_svg, accel_svg)).T
+    # Shift coordinated to the canvas center and scale to the canvas size. Also, swap x and y to conform to the world
+    # position convention used in class
+    svg_scaling_factor = min([canvas_size_width/y_range_svg, canvas_size_height/x_range_svg])
+    x_transformed = (y_center_svg - y_svg) * svg_scaling_factor + canvas_center_height
+    y_transformed = (x_center_svg - x_svg) * svg_scaling_factor - canvas_center_width
+    scaled_coords = np.vstack((x_transformed, y_transformed, z, speed, accel)).T
     
     return scaled_coords
         

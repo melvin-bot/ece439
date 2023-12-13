@@ -11,10 +11,10 @@ aruco_marker_averaging_samples: 25
 
 ################################################################################
 # Canvas parameters
-canvas_size_x: 0.1651 # meters
-canvas_size_y: 0.2286 # meters
-canvas_center_x: 0.06985 # meters
-canvas_center_y: -0.1016 # meters
+canvas_size_width: 0.1651 # meters
+canvas_size_height: 0.2286 # meters
+canvas_center_width: 0.06985 # meters
+canvas_center_height: -0.1016 # meters
 
 ################################################################################
 # Movement parameters

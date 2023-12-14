@@ -55,8 +55,8 @@ def follow_waypoints(waypoints):
     rate = rospy.Rate(command_frequency)
 
     # Interpolate smoothly between all waypoints
-    while not rospy.is_shutdown():
-        for target_position in interpolate_waypoints(waypoints, command_frequency, default_position_xyz):
+    for target_position in interpolate_waypoints(waypoints, command_frequency, default_position_xyz):
+        if not rospy.is_shutdown():
             pub_target_xyz.publish(target_position)
             rate.sleep()
     

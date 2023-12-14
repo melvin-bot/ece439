@@ -54,13 +54,23 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
     marker_pos_world = aruco_marker_world_pos(marker_pos_camera, camera_angle, camera_position)
 
     # The orientation of the AruCo tag is given by its Rodrigues vector
+    # Like in aruco_marker_world_pos, we need to translate from camera coordinates to world coordinates
     rodrigues_vector = np.array([marker_pos_camera.rot_x, marker_pos_camera.rot_y, marker_pos_camera.rot_z])
     rotation_rodrigues, _ = Rodrigues(rodrigues_vector)
     # The Rodrigues rotation gives x to the right, y up, and z out of the page
 
+    # Now we modify the Rodrigues vector to remap our coordinates to x up, y to the left, and z out of the page
+    rotation_rodrigues = np.array([[0, 0, 1], [1, 0, 0], [0, -1, 0]]) @ rotation_rodrigues
+
     # Using the Rodrigues rotation matrix and world position vector, we can construct a combined homogenous transform
     transform = np.concatenate((rotation_rodrigues, marker_pos_world.reshape((-1, 1))), axis=1)
     transform = np.concatenate((transform, np.array([[0, 0, 0, 1]])), axis=0)
+
+    # [z, x, -y]
+    # transform = np.array([[-0.01008902 , 0.1076427  ,-0.99413845,  0.35335656],
+    #                       [ 0.99993945 ,-0.00328239 ,-0.0105033 , -0.07481362],
+    #                       [ 0.00439376 , 0.99418423 , 0.10760307,  0.20472887],
+    #                       [ 0.         , 0.         , 0.        ,  1.        ],])
 
     return transform
 

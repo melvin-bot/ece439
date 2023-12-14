@@ -60,10 +60,16 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
     # The Rodrigues rotation gives x to the right, y up, and z out of the page
 
     # Now we modify the Rodrigues vector to remap our coordinates to x up, y to the left, and z out of the page
-    rotation_rodrigues = np.array([[0, 0, 1], [1, 0, 0], [0, -1, 0]]) @ rotation_rodrigues
+    rotation_matrix = np.array([[0, 0, 1], [1, 0, 0], [0, -1, 0]]) @ rotation_rodrigues
 
-    # Using the Rodrigues rotation matrix and world position vector, we can construct a combined homogenous transform
-    transform = np.concatenate((rotation_rodrigues, marker_pos_world.reshape((-1, 1))), axis=1)
+    # Rotate about the y axis by the camera's pitch angle
+    rotation_pitch = np.array([[np.cos(camera_angle), 0, np.sin(camera_angle)],
+                               [0, 0, 0],
+                               [-np.sin(camera_angle), 0, np.cos(camera_angle)]])
+    rotation_matrix = rotation_pitch @ rotation_matrix
+
+    # Using the rotation matrix and world position vector, we can construct a combined homogenous transform
+    transform = np.concatenate((rotation_matrix, marker_pos_world.reshape((-1, 1))), axis=1)
     transform = np.concatenate((transform, np.array([[0, 0, 0, 1]])), axis=0)
 
     # [z, x, -y]

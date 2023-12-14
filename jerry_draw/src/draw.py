@@ -97,16 +97,44 @@ def main():
     
     # Follow the listed waypoints smoothly
     follow_waypoints(waypoints)
-    
-    # target_waypoints = follow_waypoints(waypoints)
-    # fig = plt.figure()
-    # ax = fig.add_subplot(projection='3d')
-    # ax.scatter(xs=target_waypoints[:,0], ys=target_waypoints[:,1], zs=target_waypoints[:,2])
-    # ax.set_aspect('equal')
-    # ax.set_xlabel('x')
-    # ax.set_ylabel('y')
-    # ax.set_zlabel('z')
-    # plt.show()
+
+    # Debug method to enumerate transformations
+    # for (x_new, y_new, z_new) in [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]]:
+    #     for (x_sign, y_sign, z_sign) in [[1, 1, 1], [1, 1, -1], [1, -1, 1], [1, -1, -1], [-1, 1, 1], [-1, 1, -1], [-1, -1, 1], [-1, -1, -1]]:
+    #         # Reset waypoints
+    #         waypoints = convert_svg_to_waypoints(target_svg)
+
+    #         # Create another transformation from these parameters
+    #         remap_transform = np.zeros((4, 4))
+    #         remap_transform[0, x_new] = x_sign
+    #         remap_transform[1, y_new] = y_sign
+    #         remap_transform[2, z_new] = z_sign
+    #         remap_transform[3, 3] = 1
+
+    #         # Apply the transform remapping
+    #         easel_transform_remapped = remap_transform @ easel_transform
+
+    #         # Apply this transformation to every waypoint
+    #         waypoints = apply_transform(waypoints, easel_transform_remapped)
+
+    #         # Add one last waypoint for Jerry to return to his default position when he finishes drawing
+    #         waypoints = np.concatenate((waypoints, np.concatenate((np.array(default_position_xyz).reshape((1, -1)), [[max_speed_move, max_accel_move]]), axis=1)), axis=0)
+            
+    #         # Follow the listed waypoints smoothly
+    #         follow_waypoints(waypoints)
+
+    #         # Plot the results
+    #         title = f"[{x_new} * {x_sign}, {y_new} * {y_sign}, {z_new} * {z_sign}]"
+    #         target_waypoints = follow_waypoints(waypoints)
+    #         fig = plt.figure()
+    #         fig.canvas.manager.set_window_title(title)
+    #         ax = fig.add_subplot(projection='3d')
+    #         ax.scatter(xs=target_waypoints[:,0], ys=target_waypoints[:,1], zs=target_waypoints[:,2])
+    #         ax.set_aspect('equal')
+    #         ax.set_xlabel('x')
+    #         ax.set_ylabel('y')
+    #         ax.set_zlabel('z')
+    #         plt.show()
 
 
 # I'm a node!

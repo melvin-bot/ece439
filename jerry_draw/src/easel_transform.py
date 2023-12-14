@@ -63,9 +63,9 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
     rotation_matrix = np.array([[0, 0, 1], [1, 0, 0], [0, -1, 0]]) @ rotation_rodrigues
 
     # Rotate about the y axis by the camera's pitch angle
-    rotation_pitch = np.array([[np.cos(camera_angle), 0, np.sin(camera_angle)],
+    rotation_pitch = np.array([[np.cos(camera_angle), 0, -np.sin(camera_angle)],
                                [0, 0, 0],
-                               [-np.sin(camera_angle), 0, np.cos(camera_angle)]])
+                               [np.sin(camera_angle), 0, np.cos(camera_angle)]])
     rotation_matrix = rotation_pitch @ rotation_matrix
 
     # Using the rotation matrix and world position vector, we can construct a combined homogenous transform

@@ -1,7 +1,7 @@
 ################################################################################
 # Camera parameters
 camera_in_world: [-0.085, 0, 0.295] # (x, y, z) position of the camera center in world coordinates, in meters
-camera_pitch: 0.122173 # camera pitch, in radians; down is positive
+camera_pitch: 0.3491 # camera pitch, in radians; down is positive
 
 ################################################################################
 # AruCo marker parameters

@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import numpy as np
-from xarmrob_util.msg import ME439WaypointXYZ
+# from xarmrob_util.msg import ME439WaypointXYZ
 
 
 def interpolate_position(start_xyz, end_xyz, v_max, acceleration, command_rate):
@@ -71,7 +71,7 @@ def interpolate_waypoints(waypoints, command_rate, start_xyz):
     previous_waypoint_xyz = start_xyz
 
     # Iterate through each waypoint given
-    target_position_waypoint = ME439WaypointXYZ()
+    # target_position_waypoint = ME439WaypointXYZ()
     for waypoint in [waypoints[i, :] for i in range(waypoints.shape[0])]:
 
         # For each waypoint, calculate its trajectory using interpolation
@@ -83,8 +83,8 @@ def interpolate_waypoints(waypoints, command_rate, start_xyz):
                                                         v_max=waypoint_v_max,
                                                         acceleration=waypoint_acceleration,
                                                         command_rate=command_rate):
-            target_position_waypoint.xyz = target_position_xyz
-            yield target_position_waypoint
+            # target_position_waypoint.xyz = target_position_xyz
+            yield target_position_xyz
         
         # Update the previous waypoint location
         previous_waypoint_xyz = waypoint_xyz

@@ -2,30 +2,30 @@
 
 import numpy as np
 from matplotlib import pyplot as plt
-import rospy
+# import rospy
 
-# Get movement parameters from parameter server
-pen_liftoff_distance = rospy.get_param("/pen_liftoff_distance")
-pen_draw_distance = rospy.get_param("/pen_draw_distance")
-max_speed_move = rospy.get_param("/max_speed_move")
-max_speed_draw = rospy.get_param("/max_speed_draw")
-max_accel_move = rospy.get_param("/max_accel_move")
-max_accel_draw = rospy.get_param("/max_accel_draw")
-canvas_size_width = rospy.get_param("/canvas_size_width")
-canvas_size_height = rospy.get_param("/canvas_size_height")
-canvas_center_width = rospy.get_param("/canvas_center_width")
-canvas_center_height = rospy.get_param("/canvas_center_height")
+# # Get movement parameters from parameter server
+# pen_liftoff_distance = rospy.get_param("/pen_liftoff_distance")
+# pen_draw_distance = rospy.get_param("/pen_draw_distance")
+# max_speed_move = rospy.get_param("/max_speed_move")
+# max_speed_draw = rospy.get_param("/max_speed_draw")
+# max_accel_move = rospy.get_param("/max_accel_move")
+# max_accel_draw = rospy.get_param("/max_accel_draw")
+# canvas_size_width = rospy.get_param("/canvas_size_width")
+# canvas_size_height = rospy.get_param("/canvas_size_height")
+# canvas_center_width = rospy.get_param("/canvas_center_width")
+# canvas_center_height = rospy.get_param("/canvas_center_height")
 
-# pen_liftoff_distance = 0.02
-# pen_draw_distance = -0.002
-# max_speed_move = 0.3
-# max_speed_draw = 0.1
-# max_accel_move = 1.0
-# max_accel_draw = 0.3
-# canvas_size_width = 0.1651
-# canvas_size_height = 0.2286
-# canvas_center_width = 0.06985
-# canvas_center_height = -0.1016
+pen_liftoff_distance = 0.02
+pen_draw_distance = -0.002
+max_speed_move = 0.3
+max_speed_draw = 0.1
+max_accel_move = 1.0
+max_accel_draw = 0.3
+canvas_size_width = 0.1651
+canvas_size_height = 0.2286
+canvas_center_width = 0.06985
+canvas_center_height = -0.1016
 
 # All-inclusive function to get waypoints from an SVG file.    
 def convert_svg_to_waypoints(svg_file,

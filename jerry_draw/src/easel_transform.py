@@ -64,7 +64,7 @@ def aruco_marker_world_transform(marker_pos_camera, camera_angle, camera_positio
 
     # Rotate about the y axis by the camera's pitch angle
     rotation_pitch = np.array([[np.cos(camera_angle), 0, -np.sin(camera_angle)],
-                               [0, 0, 0],
+                               [0, 1, 0],
                                [np.sin(camera_angle), 0, np.cos(camera_angle)]])
     rotation_matrix = rotation_pitch @ rotation_matrix
 

@@ -115,10 +115,14 @@ def aruco_marker_world_transform(marker_pos_camera, camera_pitch, camera_yaw, ca
              [0, 1, 0],
              [-np.sin(camera_pitch), 0, np.cos(camera_pitch)]])
     
-    # Yaw TODO
+    # Yaw
+    rotation_yaw = np.array(
+           [[np.cos(camera_yaw), -np.sin(camera_yaw), 0],
+            [np.sin(camera_yaw),  np.cos(camera_yaw), 0],
+            [0, 0, 1]])
     
     # Construct the full rotation matrix
-    rotation_matrix = rotation_camera_pitch @ (rotation_easel_world @ (rotation_easel_camera @ rotation_remap_svg))
+    rotation_matrix = rotation_yaw @ (rotation_camera_pitch @ (rotation_easel_world @ (rotation_easel_camera @ rotation_remap_svg)))
     
 
     # Using the rotation matrix and world position vector, we can construct a combined homogenous transform

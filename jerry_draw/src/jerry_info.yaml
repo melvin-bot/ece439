@@ -29,7 +29,7 @@ max_accel_draw: 0.3 # meters/s/s
 max_accel_move: 1.0 # meters/s/s
 
 # How far the pen should move away from the easel surface when travelling
-pen_liftoff_distance: 0.02 # meters
+pen_liftoff_distance: 0.04 # meters
 
 # How far the pen should target being away from the easel surface when drawing
 # Note: when pen_draw_distance is negative, then pen will be pressed into the surface of the easel
@@ -38,7 +38,7 @@ pen_draw_distance: -0.002 # meters
 ################################################################################
 # Position of the pen tip, relative to the "wrist"
 # measured: endpoint_offset_in_frame_6: [0.232, 0., -0.012]
-endpoint_offset_in_frame_6: [0.252, 0., -0.012]  # meters
+endpoint_offset_in_frame_6: [0.226, 0., -0.012]  # meters
 
 ################################################################################
 # The angle to send to the gripper servo in order to hold the pen

@@ -176,11 +176,11 @@ def scale_coords_to_canvas(coords,
     y_range_svg = y_max_svg - y_min_svg
     y_center_svg = y_min_svg + y_range_svg / 2
  
-    # Shift coordinated to the canvas center and scale to the canvas size.
-    svg_scaling_factor = min([canvas_size_width/y_range_svg, canvas_size_height/x_range_svg])
-    x_transformed = (x_center_svg - x_svg) * svg_scaling_factor + canvas_center_height
-    y_transformed = (y_center_svg - y_svg) * svg_scaling_factor - canvas_center_width
-    scaled_coords = np.vstack((x_transformed, y_transformed, z, speed, accel)).T
+    # Shift coordinates to the canvas center and scale to the canvas size.
+    svg_scaling_factor = min([canvas_size_width / y_range_svg, canvas_size_height / x_range_svg])
+    x_transformed = (x_svg - x_center_svg) * svg_scaling_factor + canvas_center_width
+    y_transformed = (y_svg - y_center_svg) * svg_scaling_factor + canvas_center_height
+    scaled_coords = np.vstack((-1 * x_transformed, -1 * y_transformed, z, speed, accel)).T
     
     return scaled_coords
         

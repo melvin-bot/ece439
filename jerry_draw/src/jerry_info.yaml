@@ -1,7 +1,10 @@
 ################################################################################
 # Camera parameters
-camera_in_world: [-0.085, 0, 0.295] # (x, y, z) position of the camera center in world coordinates, in meters
-camera_pitch: 0.3491 # camera pitch, in radians; down is positive
+camera_in_world: [-0.075, -0.005, 0.295] # (x, y, z) position of the camera center in world coordinates, in meters
+# camera_pitch: 0.0
+camera_pitch: 0.05 # camera pitch, in radians; down is positive
+camera_yaw: 0.0
+# camera_yaw: -0.26 # camera yaw, in radians. Applied after camera_pitch, -z is poisitve for the camera, +z is applied to offset this error
 
 ################################################################################
 # AruCo marker parameters
@@ -13,8 +16,10 @@ aruco_marker_averaging_samples: 25
 # Canvas parameters
 canvas_size_width: 0.1651 # meters
 canvas_size_height: 0.2286 # meters
-canvas_center_width: 0.06985 # meters
-canvas_center_height: -0.1016 # meters
+# canvas_center_width: 0.06985 # meters
+canvas_center_width: -0.06985 # meters
+canvas_center_height: 0.1016 # meters
+# canvas_center_height: 0.1016
 
 ################################################################################
 # Movement parameters
@@ -32,7 +37,8 @@ pen_draw_distance: -0.002 # meters
 
 ################################################################################
 # Position of the pen tip, relative to the "wrist"
-endpoint_offset_in_frame_6: [0.210, 0., -0.025]  # meters
+# measured: endpoint_offset_in_frame_6: [0.232, 0., -0.012]
+endpoint_offset_in_frame_6: [0.252, 0., -0.012]  # meters
 
 ################################################################################
 # The angle to send to the gripper servo in order to hold the pen
@@ -41,4 +47,4 @@ gripper_hold_angle: 0.05 # radians
 
 ################################################################################
 # The resting position of the robot arm when it isn't drawing
-default_position_xyz: [0.1, -0.3, 0.1]
+default_position_xyz: [0.2, -0.3, 0.2]

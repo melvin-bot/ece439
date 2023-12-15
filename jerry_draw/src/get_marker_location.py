@@ -13,7 +13,8 @@ from jerry_draw.srv import get_aruco_marker_position
 # Aruco marker parameters: get these from a YAML file!
 aruco_marker_size = rospy.get_param("/aruco_marker_size")
 aruco_marker_id = rospy.get_param("/aruco_marker_id")
-camera_angle = rospy.get_param("/camera_pitch")
+camera_pitch = rospy.get_param("/camera_pitch")
+camera_yaw = rospy.get_param("/camera_yaw")
 camera_in_world = rospy.get_param("/camera_in_world")
 
 # Load camera calibration info
@@ -121,7 +122,7 @@ def capture_frame(camera, preview = True, preview_target_id = None):
         # If a target ID is provided, tell the user whether or not it was detected in the current frame
         if preview_target_id is not None:
             if len(detected_markers) > 0 and preview_target_id in [marker.id for marker in detected_markers]:
-                disp_msg = "ID " + str(preview_target_id) + " detected " + str(aruco_marker_world_pos(cur_marker, camera_angle, camera_in_world))
+                disp_msg = "ID " + str(preview_target_id) + " detected " + str(aruco_marker_world_pos(cur_marker, camera_pitch, camera_yaw, camera_in_world))
                 frame = cv2.putText(frame, disp_msg, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (64, 255, 128), 4)
             else:
                 disp_msg = "ID " + str(preview_target_id) + " not detected"

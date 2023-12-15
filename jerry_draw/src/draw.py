@@ -20,6 +20,7 @@ aruco_marker_id = rospy.get_param("/aruco_marker_id")
 aruco_marker_averaging_samples = rospy.get_param("/aruco_marker_averaging_samples")
 camera_pos_world = rospy.get_param("/camera_in_world")
 camera_pitch = rospy.get_param("/camera_pitch")
+camera_yaw = rospy.get_param("/camera_yaw")
 command_frequency = rospy.get_param("/command_frequency")
 
 # max_speed_move = 0.3
@@ -85,9 +86,11 @@ def main():
     rospy.wait_for_service('get_aruco_marker_position')
     get_marker_position = rospy.ServiceProxy('get_aruco_marker_position', get_aruco_marker_position)
     marker_position = get_marker_position(target_id=aruco_marker_id, num_samples=aruco_marker_averaging_samples).marker_position
+    print(marker_position)
 
     # Construct a transformation matrix to go from world-space to easel-space based on the marker's position
-    easel_transform = aruco_marker_world_transform(marker_position, camera_pitch, camera_pos_world)
+    easel_transform = aruco_marker_world_transform(marker_position, camera_pitch, camera_yaw, camera_pos_world)
+    print(easel_transform)
 
     # Apply this transformation to every waypoint
     waypoints = apply_transform(waypoints, easel_transform)

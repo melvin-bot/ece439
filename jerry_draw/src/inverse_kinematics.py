@@ -30,6 +30,14 @@ gripper_hold_angle = rospy.get_param("/gripper_hold_angle")
 D2 = np.linalg.norm([l4, l5])
 l2 = np.linalg.norm([delta_z_gripper, (delta_x_gripper + D2)])
 
+# There is a constant error term in beta_3 due to the simplifying assumptions
+# we make to calculate beta_3_prime with a simple YPP robot
+# Error term due to small angle between joint 3 and the pen tip
+beta_3_err = np.arctan2((-1 * delta_z_gripper), (D2 + delta_x_gripper))
+# Error term due to interior angle at joint 3
+beta_3_err += np.arctan2(l5, l4)
+# Need to add 90 degrees to beta_3 to account for zero position, subtract this from error term
+beta_3_err -= np.pi / 2
 
 def pen_inverse_kinematics(target):
     target_x = target[0]
@@ -42,7 +50,7 @@ def pen_inverse_kinematics(target):
 
     ####################
     # beta_wrist
-    beta_wrist = - np.arctan2(l4, l5)
+    beta_wrist = -1 * np.arctan2(l4, l5)
 
     ####################
     # beta_2
@@ -58,12 +66,13 @@ def pen_inverse_kinematics(target):
     ####################
     # beta_3
     angle_delta = np.arccos((l1**2 + l2**2 - D**2) / (2 * l1 * l2))
-    beta_3_prime = np.pi * 3/2 - angle_delta
+    beta_3_prime = np.pi - angle_delta
 
-    l_error = l4 + np.cos(beta_wrist) * delta_z_gripper - np.sin(beta_wrist) * delta_x_gripper
-    beta_3_error = np.arccos(l_error / l2)
+    # l_error = l4 + np.cos(beta_wrist) * delta_z_gripper - np.sin(beta_wrist) * delta_x_gripper
+    # beta_3_error = np.arccos(l_error / l2)
 
-    beta_3 = beta_3_prime - beta_3_error
+    beta_3 = beta_3_prime - beta_3_err
+    # beta_3 = beta_3_prime - np.arctan2(delta_z_gripper, D2 + delta_x_gripper) - np.arctan2(l4, l5) + np.pi/2
 
 
     return(alpha_1, beta_2, beta_3, beta_wrist)

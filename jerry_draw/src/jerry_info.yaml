@@ -2,8 +2,8 @@
 # Camera parameters
 camera_in_world: [-0.075, -0.005, 0.295] # (x, y, z) position of the camera center in world coordinates, in meters
 # camera_pitch: 0.0
-camera_pitch: 0.1 # camera pitch, in radians; down is positive
-camera_yaw: 0.15
+camera_pitch: 0.0 # camera pitch, in radians; down is positive
+camera_yaw: 0.03
 # camera_yaw: -0.26 # camera yaw, in radians. Applied after camera_pitch, -z is poisitve for the camera, +z is applied to offset this error
 
 ################################################################################
@@ -17,8 +17,8 @@ aruco_marker_averaging_samples: 25
 canvas_size_width: 0.1651 # meters
 canvas_size_height: 0.2286 # meters
 # canvas_center_width: 0.06985 # meters
-canvas_center_width: -0.10 # meters
-canvas_center_height: 0.1016 # meters
+canvas_center_width: -0.06985 # meters
+canvas_center_height: 0.1516 # meters
 # canvas_center_height: 0.1016
 
 ################################################################################
@@ -38,7 +38,7 @@ pen_draw_distance: -0.002 # meters
 ################################################################################
 # Position of the pen tip, relative to the "wrist"
 # measured: endpoint_offset_in_frame_6: [0.232, 0., -0.012]
-endpoint_offset_in_frame_6: [0.226, 0., -0.012]  # meters
+endpoint_offset_in_frame_6: [0.236, 0., -0.012]  # meters
 
 ################################################################################
 # The angle to send to the gripper servo in order to hold the pen

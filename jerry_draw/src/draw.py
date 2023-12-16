@@ -100,6 +100,9 @@ def main():
     
     # Follow the listed waypoints smoothly
     follow_waypoints(waypoints)
+    
+    # Show the people what you've drawn
+    get_marker_position(target_id=aruco_marker_id, num_samples=1)
 
     # Debug method to enumerate transformations
     # for (x_new, y_new, z_new) in [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]]:
